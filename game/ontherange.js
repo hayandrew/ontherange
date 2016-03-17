@@ -43,10 +43,40 @@ OTR.commonMethods = {
       }
     );
 
-
-
     OTR.assets.init();
     OTR.controls.setup();
+  },
+
+  createEnemy: function(){
+    var enemy = {
+        "faction": "",
+        "contraint": 400,
+        "zIndex": 0,
+        "obj": null
+      },
+      avatar = "",
+      randomValue = Math.floor((Math.random() * 10) + 1);
+    if (randomValue >= 5) {
+      enemy.faction = "DEMOCRATIC";
+      enemy.contraint += 10 * randomValue;
+      enemy.avatar = OTR.assets.graphic.urls.actors.player;
+    } else {
+      enemy.faction = "REPUBLICAN";
+      enemy.contraint += 10 * randomValue;
+      enemy.avatar = OTR.assets.graphic.urls.actors.player;
+    }
+    enemy.obj = new OTR.Sprite(
+      OTR.resources[enemy.avatar].texture
+    );
+    enemy.obj.x = Math.floor(Math.random()) * 1024;
+    enemy.obj.y = Math.floor(Math.random() * ((OTR.stage.height - OTR.props.actors.player.height) - 200 + 1)) + 50;
+    enemy.obj.vx = 0;
+    enemy.obj.vy = 0;
+    enemy.obj.width = 330;
+    enemy.obj.height = 500;
+
+    OTR.characters.enemies.push(enemy);
+    OTR.stage.addChild(enemy.obj);
   },
 
   update: function(){
@@ -64,6 +94,11 @@ OTR.commonMethods = {
         OTR.scene.projectiles.shift();
         OTR.stage.removeChild(projectile.obj);
       }
+    });
+
+    OTR.characters.enemies.forEach(function(enemy){
+      enemy.obj.x += 5;
+
     });
 
     OTR.renderer.render(OTR.stage);
