@@ -3,12 +3,24 @@
   <title>On the Range, a political shooting game</title>
 </head>
 <body>
+  <script src="jquery/jquery-2.2.2.min.js"></script>
   <script src="pixijs/pixi.min.js"></script>
+  <script src="game/ontherange.js"></script>
   <script>
 
   //Test that Pixi is working
-  console.log(PIXI);
+  //console.log(PIXI);
+  $( document ).ready(function() {
+      OTR.commonMethods.init();
+      
+      console.log(OTR);
+  });
+
 
   </script>
+
+  <div align="center">
+    <canvas id="game-canvas" width="1024" height="768"></canvas>
+  </div>
 </body>
 </html>
