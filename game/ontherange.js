@@ -15,7 +15,16 @@ OTR = {
   Sprite: PIXI.Sprite,
   props: {
     bg: {
+    },
+    actors: {
+    },
+    projectiles: {
+    },
+    vfx: {
     }
+  },
+  scene: {
+    projectiles: []
   }
 };
 OTR.commonMethods = {
@@ -34,24 +43,28 @@ OTR.commonMethods = {
       }
     );
 
-    OTR.loader
-    .add(OTR.assets.graphic.urls.backgrounds.bg1)
-    .load(OTR.commonMethods.setup);
-  },
-  setup: function(){
-    OTR.props.bg.bg1 = new OTR.Sprite(
-      OTR.resources[OTR.assets.graphic.urls.backgrounds.bg1].texture
-    );
-    OTR.props.bg.bg1.position.x = 0;
-    OTR.props.bg.bg1.position.y = 0;
-    OTR.props.bg.bg1.width = 1024;
-    OTR.props.bg.bg1.height = 768;
 
-    OTR.stage.addChild(OTR.props.bg.bg1);
 
-    requestAnimationFrame(OTR.commonMethods.update);
+    OTR.assets.init();
+    OTR.controls.setup();
   },
+
   update: function(){
+
+    OTR.props.actors.player.x += OTR.props.actors.player.vx;
+
+    OTR.scene.projectiles.forEach(function(projectile){
+      projectile.timeToLive -= 1;
+      projectile.velocity -= projectile.velocity * 0.02;
+      projectile.obj.y -= projectile.velocity;
+
+      projectile.obj.width -= projectile.obj.width/80;
+      projectile.obj.height -= projectile.obj.height/80;
+      if (projectile.timeToLive <= 0){
+        OTR.scene.projectiles.shift();
+        OTR.stage.removeChild(projectile.obj);
+      }
+    });
 
     OTR.renderer.render(OTR.stage);
 
@@ -62,16 +75,4 @@ OTR.commonMethods = {
 OTR.characters = {
   player: {},
   enemies: []
-};
-
-OTR.assets = {
-  audio: [],
-  graphic:{
-    urls: {
-      backgrounds: {
-        bg1:"resources/example-trump-bg.jpg",
-        bg2:""
-      }
-    }
-  }
 };
