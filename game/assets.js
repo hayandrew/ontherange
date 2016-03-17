@@ -30,6 +30,7 @@ OTR.assets = {
     );
     OTR.props.bg.bg1.x = 0;
     OTR.props.bg.bg1.y = 0;
+    OTR.props.bg.bg1.z = 1;
     OTR.props.bg.bg1.width = 1024;
     OTR.props.bg.bg1.height = 768;
 
@@ -38,6 +39,7 @@ OTR.assets = {
     );
     OTR.props.actors.player.x = 312;
     OTR.props.actors.player.y = 468;
+    OTR.props.actors.player.z = 1000;
     OTR.props.actors.player.vx = 0;
     OTR.props.actors.player.vy = 0;
     OTR.props.actors.player.width = 400;

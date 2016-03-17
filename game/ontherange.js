@@ -46,7 +46,13 @@ OTR.commonMethods = {
     OTR.assets.init();
     OTR.controls.setup();
   },
-
+  utils: {
+    depthCompare: function(a, b) {
+      if (a.z < b.z) return -1;
+      if (a.z > b.z) return 1;
+      return 0;
+    }
+  },
   createEnemy: function(){
     var enemy = {
         "faction": "",
@@ -68,15 +74,19 @@ OTR.commonMethods = {
     enemy.obj = new OTR.Sprite(
       OTR.resources[enemy.avatar].texture
     );
+    var posY = Math.floor(Math.random() * ((OTR.stage.height - OTR.props.actors.player.height) - 200 + 1)) + 50;
     enemy.obj.x = Math.floor(Math.random()) * 1024;
-    enemy.obj.y = Math.floor(Math.random() * ((OTR.stage.height - OTR.props.actors.player.height) - 200 + 1)) + 50;
+    enemy.obj.y = posY;
+    enemy.obj.z = posY;
     enemy.obj.vx = 0;
     enemy.obj.vy = 0;
-    enemy.obj.width = 330;
-    enemy.obj.height = 500;
+    enemy.obj.width = 330 * 0.5;
+    enemy.obj.height = 500 * 0.5;
 
     OTR.characters.enemies.push(enemy);
     OTR.stage.addChild(enemy.obj);
+    OTR.stage.children.sort(OTR.commonMethods.utils.depthCompare);
+
   },
 
   update: function(){

@@ -71,6 +71,7 @@ OTR.controls = {
     projectile.height = 80;
     projectile.x = OTR.props.actors.player.x + OTR.props.actors.player.x/2;
     projectile.y = OTR.props.actors.player.y;
+    projectile.z = 999;
 
     OTR.stage.addChild(projectile);
 
