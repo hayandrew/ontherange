@@ -7,10 +7,14 @@ OTR = {
     width: 0,
     height: 0
   },
-  gameProps: {
+  Container: PIXI.Container,
+  TextureCache: PIXI.utils.TextureCache,
+  autoDetectRenderer: PIXI.autoDetectRenderer,
+  loader: PIXI.loader,
+  resources: PIXI.loader.resources,
+  Sprite: PIXI.Sprite,
+  props: {
     bg: {
-      bg1:{},
-      bg2: {}
     }
   }
 };
@@ -20,9 +24,9 @@ OTR.commonMethods = {
     OTR.canvasSize.width = OTR.jCanvas.width();
     OTR.canvasSize.height = OTR.jCanvas.height();
 
-    OTR.stage = new PIXI.Container(0x66FF99);
+    OTR.stage = new OTR.Container();
 
-    OTR.renderer = PIXI.autoDetectRenderer(
+    OTR.renderer = OTR.autoDetectRenderer(
       OTR.canvasSize.width,
       OTR.canvasSize.height,
       {
@@ -30,16 +34,22 @@ OTR.commonMethods = {
       }
     );
 
-    OTR.assets.graphic.refs.backgrounds.bg1 = PIXI.Texture.fromImage(OTR.assets.graphic.urls.backgrounds.bg1);
-    OTR.gameProps.bg.bg1 = new PIXI.Sprite(OTR.assets.graphic.refs.backgrounds.bg1);
-    OTR.gameProps.bg.bg1.position.x = 0;
-    OTR.gameProps.bg.bg1.position.y = 0;
-    OTR.gameProps.bg.bg1.width = 1024;
-    OTR.gameProps.bg.bg1.height = 768;
-    OTR.stage.addChild(OTR.gameProps.bg.bg1);
+    OTR.loader
+    .add(OTR.assets.graphic.urls.backgrounds.bg1)
+    .load(OTR.commonMethods.setup);
+  },
+  setup: function(){
+    OTR.props.bg.bg1 = new OTR.Sprite(
+      OTR.resources[OTR.assets.graphic.urls.backgrounds.bg1].texture
+    );
+    OTR.props.bg.bg1.position.x = 0;
+    OTR.props.bg.bg1.position.y = 0;
+    OTR.props.bg.bg1.width = 1024;
+    OTR.props.bg.bg1.height = 768;
+
+    OTR.stage.addChild(OTR.props.bg.bg1);
 
     requestAnimationFrame(OTR.commonMethods.update);
-    //OTR.renderer.render(OTR.stage);
   },
   update: function(){
 
@@ -61,11 +71,6 @@ OTR.assets = {
       backgrounds: {
         bg1:"resources/example-trump-bg.jpg",
         bg2:""
-      }
-    },
-    refs: {
-      backgrounds: {
-
       }
     }
   }
