@@ -13,6 +13,9 @@ OTR = {
   loader: PIXI.loader,
   resources: PIXI.loader.resources,
   Sprite: PIXI.Sprite,
+Texture: PIXI.Texture,
+	BaseTexture: PIXI.BaseTexture,
+	Rectangle: PIXI.Rectangle,
   props: {
     bg: {
     },
@@ -21,7 +24,9 @@ OTR = {
     projectiles: {
     },
     vfx: {
-    }
+    },
+	sprites: {
+	}
   },
   scene: {
     projectiles: []
