@@ -11,14 +11,17 @@
     <script src="game/assets.js"></script>
     <script>
       $( document ).ready(function() {
-          OTR.commonMethods.init();
+				var characterChoice = OTR.commonMethods.utils.getUrlParameter('candidate');
+console.log(characterChoice)
+        OTR.commonMethods.init(characterChoice);
 
           //console.log(OTR);
       });
-    </script>
+    </script>\
 
     <div id="page">
         <div id="content">
+						<div id="life" style="float: right;">Life: <span>0</span></div>
             <div id="score">Score: <span>0</span></div>
             <canvas id="game-canvas" width="1024" height="768"></canvas>
         </div>

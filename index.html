@@ -75,9 +75,34 @@
 				scrollingSpeed: 1000
 			});
 
+            $('#clinton').on('mouseover', function () {
+                var audio = document.getElementById('hillary');
+                audio.play();
+            });
+
+            $('#sanders').on('mouseover', function () {
+                var audio = document.getElementById('bernie');
+                audio.play();
+            });
+
+            $('#cruz').on('mouseover', function () {
+                var audio = document.getElementById('ted');
+                audio.play();
+            });
+
+            $('#kasich').on('mouseover', function () {
+                var audio = document.getElementById('john');
+                audio.play();
+            });
+
+            $('#trump').on('mouseover', function () {
+                var audio = document.getElementById('donald');
+                audio.play();
+            });
+
             function stopIntro () {
                 var intro = document.getElementById('intro');
-                intro.volume=.1;
+                intro.volume=.025;
                 intro.pause();
             }
 
@@ -85,9 +110,17 @@
                 var play = document.getElementById('play');
                 play.play();
             }
+
+            function fadeIntro () {
+                var intro = document.getElementById('intro');
+                intro.volume=0.1;
+            }
+
             $('.start').on('click', function() {
                 $.fn.fullpage.moveSlideRight();
+                fadeIntro();
             });
+
             $('.goback').on('click', function() {
                 $.fn.fullpage.moveSlideLeft();
             });
@@ -111,6 +144,11 @@
 <body>
 <audio id="intro" src="resources/audio/tds-ending-credits.ogg" preload="auto" autoplay loop></audio>
 <audio id="play" src="resources/audio/trevor-noah-hoo-ha-hoo-ha.ogg" preload="auto"></audio>
+<audio id="hillary" src="resources/audio/hillary-clinton-shot-miss-laughing.ogg" preload="auto"></audio>
+<audio id="bernie" src="resources/audio/bernie-sanders-shot-miss-enough-with-the-hellos-lets-do-this.ogg" preload="auto"></audio>
+<audio id="ted" src="resources/audio/ted-cruz-shot-miss-it-is-now-or-never.ogg" preload="auto"></audio>
+<audio id="john" src="resources/audio/john-kasich-shot-hit-i-will-be-a-winner-regardless-of-what-happens.ogg" preload="auto"></audio>
+<audio id="donald" src="resources/audio/donald-trump-what-kind-of-people-do-i-have-here.ogg" preload="auto"></audio>
 
 <div id="fullpage">
 	<div class="section" id="section1">

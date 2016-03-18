@@ -9,7 +9,7 @@
     padding-top: 10px;
 }
 
-#score {
+#score, #life {
     font-family: sans-serif;
     text-transform: uppercase;
     color: #fff;
@@ -93,14 +93,13 @@ h1 {
 	font-weight: bold;
 	letter-spacing: -.075em;
 }
-
-.play-buttons {
-	position: absolute;
-	bottom: 80px;
-	right: 80px;
+#candidate-slide {
+	position:relative;
 }
-.play-buttons .play {
-	font-size: 32px;
+.play-buttons {
+	position:absolute;
+	bottom:15%;
+	right:10%;
 }
 .candidate img,
 .goback {
@@ -142,14 +141,5 @@ h1 {
 }
 .candidate-snippet img {
 	float: left;
-	margin-left: 50px;
-}
-#candidate-slide {
-	background: url('../resources/howtoplay.jpg') center center no-repeat;
-	background-size: 100%;
-	background-color:#000!important;
-}
-#candidate-slide h1 {
-	color: #fff;
-	padding-top: 10px;
+	margin-left: 30px;
 }

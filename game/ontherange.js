@@ -66,6 +66,7 @@ Texture: PIXI.Texture,
 	  },
 	  sounds: {
 		  throw: new Audio("resources/audio/swipe.ogg"),
+			gameover: new Audio("resources/audio/video-game-ending.ogg"),
 		  bernie: [
 			  {
 				  id:0,
@@ -160,10 +161,12 @@ Texture: PIXI.Texture,
 
 };
 OTR.commonMethods = {
-  init: function(){
+  init: function(character){
     OTR.jCanvas = $('#' + OTR.canvasName);
     OTR.canvasSize.width = OTR.jCanvas.width();
     OTR.canvasSize.height = OTR.jCanvas.height();
+
+		OTR.scene.player.character = character;
 
     OTR.stage = new OTR.Container();
 
@@ -184,16 +187,36 @@ OTR.commonMethods = {
             scoreCount = score.getElementsByTagName('span')[0];
 
         obj.scene.player.score += 1;
-        scoreCount.innerText=obj.scene.player.score;
+        scoreCount.innerHTML=obj.scene.player.score;
     },
     showGameOver: function() {
-      alert("Game Over");
+			var resp = confirm("Game over! Restart?");
+			OTR.props.sounds.gameover.play();
+			if (resp){
+				location.reload();
+			} else {
+				window.location = "index.html";
+			}
     },
     depthCompare: function(a, b) {
       if (a.z < b.z) return -1;
       if (a.z > b.z) return 1;
       return 0;
     },
+		getUrlParameter: function(sParam) {
+		    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+		        sURLVariables = sPageURL.split('&'),
+		        sParameterName,
+		        i;
+
+		    for (i = 0; i < sURLVariables.length; i++) {
+		        sParameterName = sURLVariables[i].split('=');
+
+		        if (sParameterName[0] === sParam) {
+		            return sParameterName[1] === undefined ? true : sParameterName[1];
+		        }
+		    }
+		},
       hitEnemy: function(r1, r2) {
 
           //Define the variables we'll need to calculate
@@ -310,7 +333,7 @@ OTR.commonMethods = {
       plusOrMinus = Math.random() < 0.5 ? -1 : 1,
       randomValue = Math.floor((Math.random() * 10) + 1);
     if (randomValue >= 8.5) {
-      enemy.person = "hillary";
+      enemy.person = "clinton";
       enemy.contraint += 20 * randomValue;
       enemy.avatar = OTR.assets.graphic.urls.actors.player;
       enemy.hitsound = OTR.props.sounds.hillary[0];
@@ -320,7 +343,7 @@ OTR.commonMethods = {
 	    enemy.head = OTR.assets.graphic.urls.imgUrls.clinton.normal;
 	    enemy.hit = OTR.assets.graphic.urls.imgUrls.clinton.hit;
     } else if (randomValue >= 7) {
-      enemy.person = "donald";
+      enemy.person = "trump";
       enemy.contraint += 20 * randomValue;
       enemy.avatar = OTR.assets.graphic.urls.actors.player;
       enemy.hitsound = OTR.props.sounds.donald[0];
@@ -330,7 +353,7 @@ OTR.commonMethods = {
 	    enemy.head = OTR.assets.graphic.urls.imgUrls.trump.normal;
 	    enemy.hit = OTR.assets.graphic.urls.imgUrls.trump.hit;
     } else if (randomValue >= 4.5) {
-      enemy.person = "bernie";
+      enemy.person = "sanders";
       enemy.contraint += 20 * randomValue;
       enemy.avatar = OTR.assets.graphic.urls.actors.player;
       enemy.hitsound = OTR.props.sounds.bernie[0];
@@ -340,7 +363,7 @@ OTR.commonMethods = {
 	    enemy.head = OTR.assets.graphic.urls.imgUrls.sanders.normal;
 	    enemy.hit = OTR.assets.graphic.urls.imgUrls.sanders.hit;
     }else if (randomValue >= 3) {
-      enemy.person = "john";
+      enemy.person = "kasich";
       enemy.contraint += 20 * randomValue;
       enemy.avatar = OTR.assets.graphic.urls.actors.player;
       enemy.hitsound = OTR.props.sounds.john[0];
@@ -350,7 +373,7 @@ OTR.commonMethods = {
 	    enemy.head = OTR.assets.graphic.urls.imgUrls.kasich.normal;
 	    enemy.hit = OTR.assets.graphic.urls.imgUrls.kasich.hit;
     }else if (randomValue >= 1.5) {
-      enemy.person = "ted";
+      enemy.person = "cruz";
       enemy.contraint += 20 * randomValue;
       enemy.avatar = OTR.assets.graphic.urls.actors.player;
       enemy.hitsound = OTR.props.sounds.ted[0];
@@ -360,7 +383,7 @@ OTR.commonMethods = {
 	    enemy.head = OTR.assets.graphic.urls.imgUrls.cruz.normal;
 	    enemy.hit = OTR.assets.graphic.urls.imgUrls.cruz.hit;
     }else {
-      enemy.person = "trevor";
+      enemy.person = "noah";
       enemy.contraint += 20 * randomValue;
       enemy.avatar = OTR.assets.graphic.urls.actors.player;
       enemy.hitsound = OTR.props.sounds.trevor[0];
@@ -514,7 +537,11 @@ OTR.commonMethods = {
   },
 
   update: function(){
-		OTR.scene.messaging.life.text = "LIFE: " + OTR.scene.player.life;
+		//OTR.scene.messaging.life.text = "LIFE: " + OTR.scene.player.life;
+		var life = document.getElementById('life'),
+				lifeCount = life.getElementsByTagName('span')[0];
+
+		lifeCount.innerHTML = OTR.scene.player.life;
 
     if (OTR.scene.player.life <= 0){
       OTR.commonMethods.utils.showGameOver();
@@ -556,6 +583,11 @@ OTR.commonMethods = {
             OTR.stage.removeChild(enemy.obj);
             OTR.stage.removeChild(projectile.obj);
             bulletHit = true;
+
+						if (enemy.person === OTR.scene.player.character){
+							OTR.props.actors.player.tint = 0xff3300;
+			        OTR.scene.player.life--;
+						}
           }
         });
       }
