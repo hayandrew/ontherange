@@ -30,6 +30,40 @@ Texture: PIXI.Texture,
     },
     vfx: {
     },
+	sprites: {
+	},
+	  imgUrls: {
+		  clinton: {
+			  body: 'resources/sprites/clinton-walk.png',
+			  normal: 'resources/heads/clinton.png',
+			  hit: 'resources/heads/clinton-hit.png'
+		  },
+		  sanders: {
+			  body: 'resources/sprites/sanders-walk.png',
+			  normal: 'resources/heads/sanders.png',
+			  hit: 'resources/heads/sanders-hit.png'
+		  },
+		  kasich: {
+			  body: 'resources/sprites/kasich-walk.png',
+			  normal: 'resources/heads/kasich.png',
+			  hit: 'resources/heads/kasich-hit.png'
+		  },
+		  trump: {
+			  body: 'resources/sprites/trump-walk.png',
+			  normal: 'resources/heads/trump.png',
+			  hit: 'resources/heads/trump-hit.png'
+		  },
+		  cruz: {
+			  body: 'resources/sprites/cruz-walk.png',
+			  normal: 'resources/heads/cruz.png',
+			  hit: 'resources/heads/cruz-hit.png'
+		  },
+		  noah: {
+			  body: 'resources/sprites/noah-walk.png',
+			  normal: 'resources/heads/noah.png',
+			  hit: 'resources/heads/noah-hit.png'
+		  }
+	  },
 	  sounds: {
 		  throw: new Audio("resources/audio/swipe.ogg"),
 		  bernie: [
@@ -138,6 +172,9 @@ OTR.commonMethods = {
     OTR.controls.setup();
   },
   utils: {
+    showGameOver: function() {
+      alert("Game Over");
+    },
     depthCompare: function(a, b) {
       if (a.z < b.z) return -1;
       if (a.z > b.z) return 1;
@@ -270,9 +307,7 @@ OTR.commonMethods = {
     }
     enemy.contraint += plusOrMinus * 100;
     enemy.fireDelay = 0;
-    enemy.fireRate = 110 + (plusOrMinus * 10);
-
-	// add enemy object
+    enemy.fireRate = 200 + (plusOrMinus * 10);
     enemy.obj = new OTR.Sprite(
       OTR.resources[enemy.body].texture
     );
@@ -317,12 +352,16 @@ OTR.commonMethods = {
   },
 
   initEnemies: function(){
-    if (OTR.enemyTimer % 240 === 0 && OTR.characters.enemies.length < 6){
+    if (OTR.enemyTimer % 180 === 0 && OTR.characters.enemies.length < 6){
       OTR.commonMethods.createEnemy();
     }
   },
 
   update: function(){
+    if (OTR.scene.player.life <= 0){
+      OTR.commonMethods.utils.showGameOver();
+      return false;
+    }
 
     OTR.enemyTimer++;
     OTR.bulletDelay++;
@@ -371,14 +410,25 @@ OTR.commonMethods = {
     });
 
     OTR.scene.enemyProjectiles.forEach(function(projectile){
-      var bulletHit = false;
 
       projectile.timeToLive -= 1;
-      projectile.velocity += projectile.velocity * 0.01;
+      projectile.velocity += projectile.velocity * 0.001;
       projectile.obj.y += projectile.velocity;
 
-      projectile.obj.width += projectile.obj.width/50;
-      projectile.obj.height += projectile.obj.height/50;
+      projectile.obj.width += projectile.obj.width/40;
+      projectile.obj.height += projectile.obj.height/40;
+
+      if (OTR.commonMethods.utils.hitTestRectangle(projectile.obj, OTR.props.actors.player)){
+        // HIT, remove bullet and enemy
+        console.log("PLAYER HIT");
+        //enemy.hitsound.sound.play();
+        OTR.scene.player.life--;
+        OTR.scene.enemyProjectiles = $.grep(OTR.scene.enemyProjectiles, function(e){
+          return e.id != projectile.id;
+        });
+        OTR.stage.removeChild(projectile.obj);
+
+      }
 /*
       if (projectile.active){
         OTR.characters.enemies.forEach(function(enemy){
@@ -399,7 +449,7 @@ OTR.commonMethods = {
         });
       }
 */
-      if (projectile.timeToLive <= 0 && !bulletHit){
+      if (projectile.timeToLive <= 0){
         OTR.scene.enemyProjectiles = $.grep(OTR.scene.enemyProjectiles, function(e){
           return e.id != projectile.id;
         });
@@ -418,14 +468,14 @@ OTR.commonMethods = {
       }
 
       if (enemy.initialX > 0 && !enemy.turnaround){
-        enemy.obj.x -= 4;
+        enemy.obj.x -= 5;
       } else if (!enemy.turnaround) {
-        enemy.obj.x += 4;
+        enemy.obj.x += 5;
       }
       if (enemy.initialX > 0 && enemy.turnaround){
-        enemy.obj.x += 4;
+        enemy.obj.x += 5;
       } else if (enemy.turnaround) {
-        enemy.obj.x -= 4;
+        enemy.obj.x -= 5;
       }
       if (enemy.initialX > 0){
         if (enemy.obj.x <= enemy.initialX - enemy.constraint) {
