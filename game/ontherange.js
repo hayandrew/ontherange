@@ -66,6 +66,7 @@ Texture: PIXI.Texture,
 	  },
 	  sounds: {
 		  throw: new Audio("resources/audio/swipe.ogg"),
+			gameover: new Audio("resources/audio/video-game-ending.ogg"),
 		  bernie: [
 			  {
 				  id:0,
@@ -189,7 +190,13 @@ OTR.commonMethods = {
         scoreCount.innerHTML=obj.scene.player.score;
     },
     showGameOver: function() {
-      alert("Game Over");
+			var resp = confirm("Game over! Restart?");
+			OTR.props.sounds.gameover.play();
+			if (resp){
+				location.reload();
+			} else {
+				window.location = "index.html";
+			}
     },
     depthCompare: function(a, b) {
       if (a.z < b.z) return -1;
