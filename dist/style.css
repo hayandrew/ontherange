@@ -93,13 +93,14 @@ h1 {
 	font-weight: bold;
 	letter-spacing: -.075em;
 }
-#candidate-slide {
-	position:relative;
-}
+
 .play-buttons {
-	position:absolute;
-	bottom:15%;
-	right:10%;
+	position: absolute;
+	bottom: 80px;
+	right: 80px;
+}
+.play-buttons .play {
+	font-size: 32px;
 }
 .candidate img,
 .goback {
@@ -141,5 +142,14 @@ h1 {
 }
 .candidate-snippet img {
 	float: left;
-	margin-left: 30px;
+	margin-left: 50px;
+}
+#candidate-slide {
+	background: url('../resources/howtoplay.jpg') center center no-repeat;
+	background-size: 100%;
+	background-color:#000!important;
+}
+#candidate-slide h1 {
+	color: #fff;
+	padding-top: 10px;
 }
