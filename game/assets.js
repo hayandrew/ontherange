@@ -18,6 +18,7 @@ OTR.assets = {
         xxxTape: "resources/weapon_xxxTape.png"
       },
       vfx: {
+	      splash: 'resources/sprites/splash.png'
       },
 	    imgUrls: {
 		    clinton: {
@@ -63,6 +64,9 @@ OTR.assets = {
     .add(OTR.assets.graphic.urls.projectiles.pump)
     .add(OTR.assets.graphic.urls.projectiles.sausage)
     .add(OTR.assets.graphic.urls.projectiles.xxxTape)
+
+	    .add(OTR.assets.graphic.urls.vfx.splash)
+
 	    .add(OTR.assets.graphic.urls.imgUrls.clinton.body)
 	    .add(OTR.assets.graphic.urls.imgUrls.sanders.body)
 	    .add(OTR.assets.graphic.urls.imgUrls.kasich.body)
@@ -99,6 +103,7 @@ OTR.assets = {
     OTR.props.actors.player = new OTR.Sprite(
       OTR.resources[OTR.assets.graphic.urls.actors.player].texture
     );
+
     OTR.props.actors.player.x = 312;
     OTR.props.actors.player.y = 468;
     OTR.props.actors.player.z = 1000;
@@ -109,7 +114,7 @@ OTR.assets = {
 
     OTR.stage.addChild(OTR.props.bg.bg1);
     OTR.stage.addChild(OTR.props.actors.player);
-	OTR.stage.addChild(OTR.props.actors.player);
+
 
     requestAnimationFrame(OTR.commonMethods.update);
   }

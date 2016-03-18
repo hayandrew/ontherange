@@ -354,6 +354,9 @@ OTR.commonMethods = {
 		  enemyHead.position.set(headPositions[frameCounter].x, headPositions[frameCounter].y);
 	  }, 100);
 
+	  //enemyHead.scale.x = -1;
+	  //enemyHead.scale.x = -1;
+
 	  enemyFull.addChild(enemyBody);
 	  enemyFull.addChild(enemyHead);
 	  enemyFull.scale.x = 0.5;
@@ -369,13 +372,49 @@ OTR.commonMethods = {
 	  enemyFull.vx = 0;
 	  enemyFull.vy = 0;
 
-    //OTR.characters.enemies.push(enemy);
+    //OTR.characters.enemies.push(enemyFull);
     //OTR.stage.addChild(enemy.obj);
     //OTR.stage.children.sort(OTR.commonMethods.utils.depthCompare);*/
 
 	  OTR.stage.addChild(enemyFull);
+	  this.addSplash(100,200)
 
   },
+
+	addSplash: function(xpos,ypos) {
+		OTR.props.vfx.splash = new OTR.Sprite(
+			OTR.resources[OTR.assets.graphic.urls.vfx.splash].texture
+		);
+
+		var splash = OTR.props.vfx.splash;
+
+		splash.width = 1000;
+		splash.height = 200;
+		splash.x = xpos;
+		splash.y = ypos;
+
+		for(var i = 0; i < 5; i++){
+			var frame = new OTR.Texture(OTR.BaseTexture.fromImage(OTR.assets.graphic.urls.vfx.splash));
+			frame.setFrame(new OTR.Rectangle( (i*200), 0, 200, 200));
+			if(i === 0){
+				splash = new OTR.Sprite(frame);
+				splash.animation = {};
+				splash.animation.frameNumber = 5;
+				splash.animation.frames = [];
+				splash.animation.frameCounter = 0;
+			};
+			splash.animation.frames.push(frame);
+		};
+		splash.animation.looper = setInterval(function(){
+			var frameCounter = splash.animation.frameCounter;
+			splash.setTexture(splash.animation.frames[splash.animation.frameCounter]);
+			splash.animation.frameCounter++;
+			if(splash.animation.frameCounter === splash.animation.frames.length){
+				splash.animation.frameCounter = 0;
+			};
+		}, 100);
+		OTR.stage.addChild(splash);
+	},
 
   initEnemies: function(){
     if (OTR.enemyTimer % 180 === 0 && OTR.characters.enemies.length < 6){
@@ -492,7 +531,6 @@ OTR.commonMethods = {
           enemy.fireDelay = 0;
         }
       }
-
       if (enemy.initialX > 0 && !enemy.turnaround){
         enemy.obj.x -= 5;
       } else if (!enemy.turnaround) {
