@@ -216,7 +216,6 @@ OTR.commonMethods = {
 
           //There's definitely a collision happening
           hit = true;
-            console.log()
         } else {
 
           //There's no collision on the y axis
