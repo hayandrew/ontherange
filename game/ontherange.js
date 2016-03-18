@@ -321,7 +321,9 @@ OTR.commonMethods = {
 	  enemyBody.width = 2640;
 	  enemyBody.height = 500;
 
-	  var headPositions = [
+	  var headPositions = [];
+
+	  var headPositionsLeft = [
 		  { x: 15, y: -210 },
 		  { x: 20, y: -190 },
 		  { x: 20, y: -195 },
@@ -330,6 +332,16 @@ OTR.commonMethods = {
 		  { x: 25, y: -195 },
 		  { x: 20, y: -197 },
 		  { x: 20, y: -225 }
+	  ];
+	  var headPositionsRight = [
+		  { x: 5, y: -210 },
+		  { x: 10, y: -190 },
+		  { x: 10, y: -195 },
+		  { x: 5, y: -220 },
+		  { x: 5, y: -210 },
+		  { x: 15, y: -195 },
+		  { x: 10, y: -197 },
+		  { x: 10, y: -225 }
 	  ];
 
 	  for(var i = 0; i < 8; i++){
@@ -351,11 +363,19 @@ OTR.commonMethods = {
 		  if(enemyBody.animation.frameCounter === enemyBody.animation.frames.length){
 			  enemyBody.animation.frameCounter = 0;
 		  };
-		  enemyHead.position.set(headPositions[frameCounter].x, headPositions[frameCounter].y);
-	  }, 100);
+		  if(enemy.turnaround) {
+			  enemyBody.scale.x = -1;
+			  enemyHead.scale.x = -1;
+			  headPositions = headPositionsRight;
+				console.log(enemy.turnaround);
+		  } else {
+			  enemyBody.scale.x = 1;
+			  enemyHead.scale.x = 1;
+			  headPositions = headPositionsLeft;
+		  }
+			enemyHead.position.set(headPositions[frameCounter].x, headPositions[frameCounter].y);
 
-	  //enemyHead.scale.x = -1;
-	  //enemyHead.scale.x = -1;
+	  }, 100);
 
 	  enemyFull.addChild(enemyBody);
 	  enemyFull.addChild(enemyHead);
@@ -535,6 +555,7 @@ OTR.commonMethods = {
       }
       if (enemy.initialX > 0 && !enemy.turnaround){
         enemy.obj.x -= 5;
+
       } else if (!enemy.turnaround) {
         enemy.obj.x += 5;
       }

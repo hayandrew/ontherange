@@ -3,11 +3,11 @@ OTR.assets = {
   graphic:{
     urls: {
       backgrounds: {
-        bg1:"resources/example-trump-bg.jpg",
+        bg1:"resources/background2.jpg",
         bg2:""
       },
       actors: {
-        player: "resources/throwing-arm.jpg"
+        player: "resources/launcher.png"
       },
       projectiles: {
         tomato: "resources/tomato.png",
@@ -90,7 +90,7 @@ OTR.assets = {
 
     .load(OTR.assets.setup);
   },
-  setup: function(loader, res){
+  setup: function(){
     OTR.props.bg.bg1 = new OTR.Sprite(
       OTR.resources[OTR.assets.graphic.urls.backgrounds.bg1].texture
     );
@@ -105,12 +105,12 @@ OTR.assets = {
     );
 
     OTR.props.actors.player.x = 312;
-    OTR.props.actors.player.y = 468;
+    OTR.props.actors.player.y = 538;
     OTR.props.actors.player.z = 1000;
     OTR.props.actors.player.vx = 0;
     OTR.props.actors.player.vy = 0;
-    OTR.props.actors.player.width = 400;
-    OTR.props.actors.player.height = 300;
+    OTR.props.actors.player.width = 302;
+    OTR.props.actors.player.height = 231;
 
     OTR.stage.addChild(OTR.props.bg.bg1);
     OTR.stage.addChild(OTR.props.actors.player);
