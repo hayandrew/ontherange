@@ -308,46 +308,72 @@ OTR.commonMethods = {
     enemy.contraint += plusOrMinus * 100;
     enemy.fireDelay = 0;
     enemy.fireRate = 200 + (plusOrMinus * 10);
-    enemy.obj = new OTR.Sprite(
-      OTR.resources[enemy.body].texture
-    );
 
-	  enemy.obj.width = 2640;
-	  enemy.obj.height = 500;
+	  var enemyBody = new OTR.Sprite(
+		  OTR.resources[enemy.body].texture
+	  );
+	  var enemyHead = new OTR.Sprite(
+		  OTR.resources[enemy.head].texture
+	  );
+	  enemyHead.position.set(15, -210);
+	  var enemyFull = new OTR.Container();
+
+	  enemyBody.width = 2640;
+	  enemyBody.height = 500;
+
+	  var headPositions = [
+		  { x: 15, y: -210 },
+		  { x: 20, y: -190 },
+		  { x: 20, y: -195 },
+		  { x: 15, y: -220 },
+		  { x: 15, y: -210 },
+		  { x: 25, y: -195 },
+		  { x: 20, y: -197 },
+		  { x: 20, y: -225 }
+	  ];
 
 	  for(var i = 0; i < 8; i++){
 		  var frame = new OTR.Texture(OTR.BaseTexture.fromImage(enemy.body));
 		  frame.setFrame(new OTR.Rectangle( (i *330), 0, 330, 500));
 		  if(i === 0){
-			  enemy.obj = new OTR.Sprite(frame);
-			  enemy.obj.animation = {};
-			  enemy.obj.animation.frameNumber = 8;
-			  enemy.obj.animation.frames = [];
-			  enemy.obj.animation.frameCounter = 0;
+			  enemyBody = new OTR.Sprite(frame);
+			  enemyBody.animation = {};
+			  enemyBody.animation.frameNumber = 8;
+			  enemyBody.animation.frames = [];
+			  enemyBody.animation.frameCounter = 0;
 		  };
-		  enemy.obj.animation.frames.push(frame);
+		  enemyBody.animation.frames.push(frame);
 	  };
-	  enemy.obj.animation.looper = setInterval(function(){
-		  enemy.obj.setTexture(enemy.obj.animation.frames[enemy.obj.animation.frameCounter]);
-		  enemy.obj.animation.frameCounter++;
-		  if(enemy.obj.animation.frameCounter === enemy.obj.animation.frames.length){
-			  enemy.obj.animation.frameCounter = 0;
+	  enemyBody.animation.looper = setInterval(function(){
+		  var frameCounter = enemyBody.animation.frameCounter;
+		  enemyBody.setTexture(enemyBody.animation.frames[enemyBody.animation.frameCounter]);
+		  enemyBody.animation.frameCounter++;
+		  if(enemyBody.animation.frameCounter === enemyBody.animation.frames.length){
+			  enemyBody.animation.frameCounter = 0;
 		  };
+		  enemyHead.position.set(headPositions[frameCounter].x, headPositions[frameCounter].y);
 	  }, 100);
 
-    var posY = Math.floor(Math.random() * 100) + 100;
-    //enemy.obj.width = 330 * 0.5;
-    //enemy.obj.height = 500 * 0.5;
-    enemy.obj.x = Math.round(Math.random()) * (OTR.canvasSize.width - enemy.obj.width);
-    enemy.initialX = enemy.obj.x;
-    enemy.obj.y = posY;
-    enemy.obj.z = posY;
-    enemy.obj.vx = 0;
-    enemy.obj.vy = 0;
+	  enemyFull.addChild(enemyBody);
+	  enemyFull.addChild(enemyHead);
+	  enemyFull.scale.x = 0.5;
+	  enemyFull.scale.y = 0.5;
 
-    OTR.characters.enemies.push(enemy);
-    OTR.stage.addChild(enemy.obj);
-    OTR.stage.children.sort(OTR.commonMethods.utils.depthCompare);
+    var posY = Math.floor(Math.random() * 100) + 100;
+    //enemyFull.width = 330 * 0.5;
+    //enemyFull.height = 500 * 0.5;
+	  enemyFull.x = Math.round(Math.random()) * (OTR.canvasSize.width - enemyFull.width);
+	  enemyFull.initialX = enemyFull.x;
+	  enemyFull.y = posY;
+	  enemyFull.z = posY;
+	  enemyFull.vx = 0;
+	  enemyFull.vy = 0;
+
+    //OTR.characters.enemies.push(enemy);
+    //OTR.stage.addChild(enemy.obj);
+    //OTR.stage.children.sort(OTR.commonMethods.utils.depthCompare);*/
+
+	  OTR.stage.addChild(enemyFull);
 
   },
 
