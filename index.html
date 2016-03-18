@@ -102,7 +102,7 @@
 
             function stopIntro () {
                 var intro = document.getElementById('intro');
-                intro.volume=.1;
+                intro.volume=.025;
                 intro.pause();
             }
 
@@ -110,9 +110,17 @@
                 var play = document.getElementById('play');
                 play.play();
             }
+
+            function fadeIntro () {
+                var intro = document.getElementById('intro');
+                intro.volume=0.1;
+            }
+
             $('.start').on('click', function() {
                 $.fn.fullpage.moveSlideRight();
+                fadeIntro();
             });
+
             $('.goback').on('click', function() {
                 $.fn.fullpage.moveSlideLeft();
             });
