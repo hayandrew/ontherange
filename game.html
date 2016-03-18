@@ -11,8 +11,8 @@
     <script src="game/assets.js"></script>
     <script>
       $( document ).ready(function() {
-				var characterChoice = ""
-
+				var characterChoice = OTR.commonMethods.utils.getUrlParameter('candidate');
+console.log(characterChoice)
         OTR.commonMethods.init(characterChoice);
 
           //console.log(OTR);
