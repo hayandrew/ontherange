@@ -146,8 +146,13 @@ Texture: PIXI.Texture,
   },
   scene: {
     player: {
-      "life": 3
+      "life": 3,
+			"originalTint": "",
+			"character": ""
     },
+		messaging: {
+			life: null
+		},
     projectiles: [],
     enemyProjectiles: []
   }
@@ -321,7 +326,9 @@ OTR.commonMethods = {
 	  enemyBody.width = 2640;
 	  enemyBody.height = 500;
 
-	  var headPositions = [
+	  var headPositions = [];
+
+	  var headPositionsLeft = [
 		  { x: 15, y: -210 },
 		  { x: 20, y: -190 },
 		  { x: 20, y: -195 },
@@ -330,6 +337,16 @@ OTR.commonMethods = {
 		  { x: 25, y: -195 },
 		  { x: 20, y: -197 },
 		  { x: 20, y: -225 }
+	  ];
+	  var headPositionsRight = [
+		  { x: 5, y: -210 },
+		  { x: 10, y: -190 },
+		  { x: 10, y: -195 },
+		  { x: 5, y: -220 },
+		  { x: 5, y: -210 },
+		  { x: 15, y: -195 },
+		  { x: 10, y: -197 },
+		  { x: 10, y: -225 }
 	  ];
 
 	  for(var i = 0; i < 8; i++){
@@ -351,11 +368,19 @@ OTR.commonMethods = {
 		  if(enemyBody.animation.frameCounter === enemyBody.animation.frames.length){
 			  enemyBody.animation.frameCounter = 0;
 		  };
-		  enemyHead.position.set(headPositions[frameCounter].x, headPositions[frameCounter].y);
-	  }, 100);
+		  if(enemy.turnaround) {
+			  enemyBody.scale.x = -1;
+			  enemyHead.scale.x = -1;
+			  headPositions = headPositionsRight;
+				console.log(enemy.turnaround);
+		  } else {
+			  enemyBody.scale.x = 1;
+			  enemyHead.scale.x = 1;
+			  headPositions = headPositionsLeft;
+		  }
+			enemyHead.position.set(headPositions[frameCounter].x, headPositions[frameCounter].y);
 
-	  //enemyHead.scale.x = -1;
-	  //enemyHead.scale.x = -1;
+	  }, 100);
 
 	  enemyFull.addChild(enemyBody);
 	  enemyFull.addChild(enemyHead);
@@ -371,8 +396,8 @@ OTR.commonMethods = {
 	  enemyFull.z = posY;
 	  enemyFull.vx = 0;
 	  enemyFull.vy = 0;
-    enemyFull.scale.x = enemyFull.scale.x * (posY * 0.005);
-	  enemyFull.scale.y = enemyFull.scale.y * (posY * 0.005);
+    enemyFull.scale.x = enemyFull.scale.x * (posY * 0.008);
+	  enemyFull.scale.y = enemyFull.scale.y * (posY * 0.008);
 
     enemy.obj = enemyFull;
 
@@ -386,16 +411,13 @@ OTR.commonMethods = {
   },
 
 	addSplash: function(xpos,ypos) {
-		OTR.props.vfx.splash = new OTR.Sprite(
+		var splash = new OTR.Sprite(
 			OTR.resources[OTR.assets.graphic.urls.vfx.splash].texture
 		);
 
-		var splash = OTR.props.vfx.splash;
-
-		splash.width = 1000;
+		//var splash = OTR.props.vfx.splash;
+		splash.width = 200;
 		splash.height = 200;
-		splash.x = xpos;
-		splash.y = ypos;
 
 		for(var i = 0; i < 5; i++){
 			var frame = new OTR.Texture(OTR.BaseTexture.fromImage(OTR.assets.graphic.urls.vfx.splash));
@@ -415,8 +437,13 @@ OTR.commonMethods = {
 			splash.animation.frameCounter++;
 			if(splash.animation.frameCounter === splash.animation.frames.length){
 				splash.animation.frameCounter = 0;
+				OTR.stage.removeChild(splash);
+				clearInterval(splash.animation.looper);
 			};
 		}, 100);
+		splash.x = xpos - splash.width/2;
+		splash.y = ypos - splash.height/2;
+    splash.z = 1001;
 		OTR.stage.addChild(splash);
 	},
 
@@ -427,6 +454,8 @@ OTR.commonMethods = {
   },
 
   update: function(){
+		OTR.scene.messaging.life.text = "LIFE: " + OTR.scene.player.life;
+
     if (OTR.scene.player.life <= 0){
       OTR.commonMethods.utils.showGameOver();
       return false;
@@ -442,7 +471,7 @@ OTR.commonMethods = {
       var bulletHit = false;
 
       projectile.timeToLive -= 1;
-      projectile.velocity -= projectile.velocity * 0.01;
+      projectile.velocity -= projectile.velocity * 0.015;
       projectile.obj.y -= projectile.velocity;
 
       projectile.obj.width -= projectile.obj.width/80;
@@ -457,6 +486,7 @@ OTR.commonMethods = {
             // HIT, remove bullet and enemy
             console.log("HIT")
             enemy.hitsound.sound.play();
+            OTR.commonMethods.addSplash(projectile.obj.x, projectile.obj.y);
             OTR.characters.enemies = $.grep(OTR.characters.enemies, function(e){
               return e.id != enemy.id;
             });
@@ -478,6 +508,8 @@ OTR.commonMethods = {
       }
     });
 
+		OTR.props.actors.player.tint = OTR.scene.player.originalTint;
+
     OTR.scene.enemyProjectiles.forEach(function(projectile){
 
       projectile.timeToLive -= 1;
@@ -487,10 +519,12 @@ OTR.commonMethods = {
       projectile.obj.width += projectile.obj.width/40;
       projectile.obj.height += projectile.obj.height/40;
 
+
       if (OTR.commonMethods.utils.hitTestRectangle(projectile.obj, OTR.props.actors.player)){
         // HIT, remove bullet and enemy
         console.log("PLAYER HIT");
         //enemy.hitsound.sound.play();
+				OTR.props.actors.player.tint = 0xff3300;
         OTR.scene.player.life--;
         OTR.scene.enemyProjectiles = $.grep(OTR.scene.enemyProjectiles, function(e){
           return e.id != projectile.id;
@@ -518,7 +552,8 @@ OTR.commonMethods = {
         });
       }
 */
-      if (projectile.timeToLive <= 0){
+      //if (projectile.timeToLive <= 0){
+			if (projectile.obj.y+projectile.obj.height >= OTR.canvasSize.height){
         OTR.scene.enemyProjectiles = $.grep(OTR.scene.enemyProjectiles, function(e){
           return e.id != projectile.id;
         });
@@ -536,25 +571,25 @@ OTR.commonMethods = {
         }
       }
       if (enemy.initialX > 0 && !enemy.turnaround){
-        enemy.obj.position.x -= 5;
+        enemy.obj.x -= 5;
       } else if (!enemy.turnaround) {
-        enemy.obj.position.x += 5;
+        enemy.obj.x += 5;
       }
       if (enemy.initialX > 0 && enemy.turnaround){
-        enemy.obj.position.x += 5;
+        enemy.obj.x += 5;
       } else if (enemy.turnaround) {
-        enemy.obj.position.x -= 5;
+        enemy.obj.x -= 5;
       }
       if (enemy.initialX > 0){
-        if (enemy.obj.position.x <= enemy.initialX - enemy.constraint) {
+        if (enemy.obj.x <= enemy.initialX - enemy.constraint) {
           enemy.turnaround = true;
-        } else if (enemy.obj.position.x >= enemy.initialX) {
+        } else if (enemy.obj.x >= enemy.initialX) {
           enemy.turnaround = false;
         }
       } else {
-        if (enemy.obj.position.x >= enemy.initialX + enemy.constraint) {
+        if (enemy.obj.x >= enemy.initialX + enemy.constraint) {
           enemy.turnaround = true;
-        } else if (enemy.obj.position.x <= enemy.initialX) {
+        } else if (enemy.obj.x <= enemy.initialX) {
           enemy.turnaround = false;
         }
       }

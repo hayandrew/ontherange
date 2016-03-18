@@ -57,10 +57,13 @@ OTR.controls = {
       }
     };
     OTR.keyFire.press = function(){
+      /*
       if (OTR.bulletDelay >= 60){
         OTR.bulletDelay = 0;
         OTR.controls.fireProjectile();
       }
+      */
+      OTR.controls.fireProjectile();
     };
     OTR.keyFire.release = function(){
 
@@ -97,11 +100,11 @@ OTR.controls = {
     OTR.props.sounds.throw.play();
 
     var projectile = new OTR.Sprite(
-      OTR.resources[OTR.assets.graphic.urls.projectiles.tomato].texture
+      OTR.resources[OTR.assets.graphic.urls.projectiles.waterballoon].texture
     );
     projectile.width = 100;
     projectile.height = 100;
-    projectile.x = OTR.props.actors.player.x + OTR.props.actors.player.width/2;
+    projectile.x = OTR.props.actors.player.x + OTR.props.actors.player.width/2 - projectile.width/2;
     projectile.y = OTR.props.actors.player.y;
     projectile.z = 999;
 
@@ -115,5 +118,7 @@ OTR.controls = {
       "velocity": 6.5,
       obj: projectile
     });
+
+    OTR.stage.children.sort(OTR.commonMethods.utils.depthCompare);
   }
 };
