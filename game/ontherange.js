@@ -17,6 +17,9 @@ OTR = {
   loader: PIXI.loader,
   resources: PIXI.loader.resources,
   Sprite: PIXI.Sprite,
+Texture: PIXI.Texture,
+	BaseTexture: PIXI.BaseTexture,
+	Rectangle: PIXI.Rectangle,
   props: {
     bg: {
     },
@@ -26,85 +29,87 @@ OTR = {
     },
     vfx: {
     },
-    sounds: {
-      throw: new Audio("resources/audio/swipe.ogg"),
-      bernie: [
-        {
-          id:0,
-          sound: new Audio("resources/audio/bernie-sanders-shot-hit-it-doesnt-matter.ogg")
-        },
-        {
-          id:1,
-          sound: new Audio("resources/audio/bernie-sanders-shot-hit-we-are-going-to-get-our-way-no-matter-what.ogg")
-        },
-        {
-          id:2,
-          sound: new Audio("resources/audio/bernie-sanders-shot-miss-enough-with-the-hellos-lets-do-this.ogg")
-        }
-      ],
-      donald: [
-        {
-          id:0,
-          sound: new Audio("resources/audio/donald-trump-shot-hit-son-of-a-bitch.ogg")
-        },
-        {
-          id:1,
-          sound: new Audio("resources/audio/donald-trump-shot-miss-he-s-terrible.ogg")
-        },
-        {
-          id:2,
-          sound: new Audio("resources/audio/donald-trump-shot-miss-i-yiii-yiii.ogg")
-        },
-        {
-          id:3,
-          sound: new Audio("resources/audio/donald-trump-the-hell-outta-here-will-you-please.ogg")
-        },
-        {
-          id:4,
-          sound: new Audio("resources/audio/donald-trump-what-kind-of-people-do-i-have-here.ogg")
-        }
-      ],
-      hillary: [
-        {
-          id:0,
-          sound: new Audio("resources/audio/hillary-clinton-shot-hit-you-re-not-patriotic.ogg")
-        },
-        {
-          id:1,
-          sound: new Audio("resources/audio/hillary-clinton-shot-miss-laughing.ogg")
-        }
-      ],
-      john: [
-        {
-          id:0,
-          sound: new Audio("resources/audio/john-kasich-shot-hit-i-will-be-a-winner-regardless-of-what-happens.ogg")
-        },
-        {
-          id:1,
-          sound: new Audio("resources/audio/john-kasich-shot-miss-come-on-folks.ogg")
-        }
-      ],
-      ted: [
-        {
-          id:0,
-          sound: new Audio("resources/audio/ted-cruz-shot-hit-the-world-is-on-fire-YES.ogg")
-        },
-        {
-          id:1,
-          sound: new Audio("resources/audio/ted-cruz-shot-miss-it-is-now-or-never.ogg")
-        },
-        {
-          id:2,
-          sound: new Audio("resources/audio/ted-cruz-shot-miss-it-s-great-to-be-with-you.ogg")
-        }
-      ],
-      trevor: [
-        {
-          id:0,
-          sound: new Audio("resources/audio/trevor-noah-wow-wow.ogg")
-        }
-      ]
-    }
+	sprites: {
+	},
+	  sounds: {
+		  throw: new Audio("resources/audio/swipe.ogg"),
+		  bernie: [
+			  {
+				  id:0,
+				  sound: new Audio("resources/audio/bernie-sanders-shot-hit-it-doesnt-matter.ogg")
+			  },
+			  {
+				  id:1,
+				  sound: new Audio("resources/audio/bernie-sanders-shot-hit-we-are-going-to-get-our-way-no-matter-what.ogg")
+			  },
+			  {
+				  id:2,
+				  sound: new Audio("resources/audio/bernie-sanders-shot-miss-enough-with-the-hellos-lets-do-this.ogg")
+			  }
+		  ],
+		  donald: [
+			  {
+				  id:0,
+				  sound: new Audio("resources/audio/donald-trump-shot-hit-son-of-a-bitch.ogg")
+			  },
+			  {
+				  id:1,
+				  sound: new Audio("resources/audio/donald-trump-shot-miss-he-s-terrible.ogg")
+			  },
+			  {
+				  id:2,
+				  sound: new Audio("resources/audio/donald-trump-shot-miss-i-yiii-yiii.ogg")
+			  },
+			  {
+				  id:3,
+				  sound: new Audio("resources/audio/donald-trump-the-hell-outta-here-will-you-please.ogg")
+			  },
+			  {
+				  id:4,
+				  sound: new Audio("resources/audio/donald-trump-what-kind-of-people-do-i-have-here.ogg")
+			  }
+		  ],
+		  hillary: [
+			  {
+				  id:0,
+				  sound: new Audio("resources/audio/hillary-clinton-shot-hit-you-re-not-patriotic.ogg")
+			  },
+			  {
+				  id:1,
+				  sound: new Audio("resources/audio/hillary-clinton-shot-miss-laughing.ogg")
+			  }
+		  ],
+		  john: [
+			  {
+				  id:0,
+				  sound: new Audio("resources/audio/john-kasich-shot-hit-i-will-be-a-winner-regardless-of-what-happens.ogg")
+			  },
+			  {
+				  id:1,
+				  sound: new Audio("resources/audio/john-kasich-shot-miss-come-on-folks.ogg")
+			  }
+		  ],
+		  ted: [
+			  {
+				  id:0,
+				  sound: new Audio("resources/audio/ted-cruz-shot-hit-the-world-is-on-fire-YES.ogg")
+			  },
+			  {
+				  id:1,
+				  sound: new Audio("resources/audio/ted-cruz-shot-miss-it-is-now-or-never.ogg")
+			  },
+			  {
+				  id:2,
+				  sound: new Audio("resources/audio/ted-cruz-shot-miss-it-s-great-to-be-with-you.ogg")
+			  }
+		  ],
+		  trevor: [
+			  {
+				  id:0,
+				  sound: new Audio("resources/audio/trevor-noah-wow-wow.ogg")
+			  }
+		  ]
+	  }
   },
   scene: {
     projectiles: []
