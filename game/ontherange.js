@@ -32,6 +32,38 @@ Texture: PIXI.Texture,
     },
 	sprites: {
 	},
+	  imgUrls: {
+		  clinton: {
+			  body: 'resources/sprites/clinton-walk.png',
+			  normal: 'resources/heads/clinton.png',
+			  hit: 'resources/heads/clinton-hit.png'
+		  },
+		  sanders: {
+			  body: 'resources/sprites/sanders-walk.png',
+			  normal: 'resources/heads/sanders.png',
+			  hit: 'resources/heads/sanders-hit.png'
+		  },
+		  kasich: {
+			  body: 'resources/sprites/kasich-walk.png',
+			  normal: 'resources/heads/kasich.png',
+			  hit: 'resources/heads/kasich-hit.png'
+		  },
+		  trump: {
+			  body: 'resources/sprites/trump-walk.png',
+			  normal: 'resources/heads/trump.png',
+			  hit: 'resources/heads/trump-hit.png'
+		  },
+		  cruz: {
+			  body: 'resources/sprites/cruz-walk.png',
+			  normal: 'resources/heads/cruz.png',
+			  hit: 'resources/heads/cruz-hit.png'
+		  },
+		  noah: {
+			  body: 'resources/sprites/noah-walk.png',
+			  normal: 'resources/heads/noah.png',
+			  hit: 'resources/heads/noah-hit.png'
+		  }
+	  },
 	  sounds: {
 		  throw: new Audio("resources/audio/swipe.ogg"),
 		  bernie: [
