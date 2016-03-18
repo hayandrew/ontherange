@@ -1,0 +1,28 @@
+.wrapper {
+    width: 100%;
+    height: 100%;
+    border-style: solid;
+    text-align: center;
+}
+
+.wrapper:before {
+    content: ' ';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
+
+.content {
+    color: #fff;
+    display: inline-block;
+    vertical-align: middle;
+    font: 16px/1.5 sans-serif;
+    padding: 5px;
+    border: 2px solid black;
+}
+
+.logo {
+    font-size: 32px;
+}
+.play {}
+.credits {}
