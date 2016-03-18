@@ -118,6 +118,7 @@ OTR.assets = {
 
 		OTR.scene.player.originalTint = OTR.props.actors.player.tint;
 
+/*
 		OTR.scene.messaging.life = new PIXI.Text(
 			"LIFE: " + OTR.scene.player.life,
 			{font: "52px sans-serif", fill: "white"}
@@ -125,6 +126,11 @@ OTR.assets = {
 		OTR.scene.messaging.life.z = 2000;
 		OTR.scene.messaging.life.position.set(40, 40);
 		OTR.stage.addChild(OTR.scene.messaging.life);
+*/
+		var life = document.getElementById('life'),
+				lifeCount = life.getElementsByTagName('span')[0];
+				console.log(lifeCount);
+		lifeCount.innerHTML = OTR.scene.player.life;
 
     requestAnimationFrame(OTR.commonMethods.update);
   }
