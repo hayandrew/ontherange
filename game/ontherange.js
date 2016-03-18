@@ -147,8 +147,13 @@ Texture: PIXI.Texture,
   scene: {
     player: {
       "life": 3,
-      score: 0
+      score: 0,
+      "originalTint": "",
+      "character": ""
     },
+		messaging: {
+			life: null
+		},
     projectiles: [],
     enemyProjectiles: []
   }
@@ -451,6 +456,8 @@ OTR.commonMethods = {
 	  enemyFull.z = posY;
 	  enemyFull.vx = 0;
 	  enemyFull.vy = 0;
+    enemyFull.scale.x = enemyFull.scale.x * (posY * 0.008);
+	  enemyFull.scale.y = enemyFull.scale.y * (posY * 0.008);
 
     enemy.obj = enemyFull;
 
@@ -464,16 +471,13 @@ OTR.commonMethods = {
   },
 
 	addSplash: function(xpos,ypos) {
-		OTR.props.vfx.splash = new OTR.Sprite(
+		var splash = new OTR.Sprite(
 			OTR.resources[OTR.assets.graphic.urls.vfx.splash].texture
 		);
 
-		var splash = OTR.props.vfx.splash;
-
-		splash.width = 1000;
+		//var splash = OTR.props.vfx.splash;
+		splash.width = 200;
 		splash.height = 200;
-		splash.x = xpos;
-		splash.y = ypos;
 
 		for(var i = 0; i < 5; i++){
 			var frame = new OTR.Texture(OTR.BaseTexture.fromImage(OTR.assets.graphic.urls.vfx.splash));
@@ -493,8 +497,13 @@ OTR.commonMethods = {
 			splash.animation.frameCounter++;
 			if(splash.animation.frameCounter === splash.animation.frames.length){
 				splash.animation.frameCounter = 0;
+				OTR.stage.removeChild(splash);
+				clearInterval(splash.animation.looper);
 			};
 		}, 100);
+		splash.x = xpos - splash.width/2;
+		splash.y = ypos - splash.height/2;
+    splash.z = 1001;
 		OTR.stage.addChild(splash);
 	},
 
@@ -505,6 +514,8 @@ OTR.commonMethods = {
   },
 
   update: function(){
+		OTR.scene.messaging.life.text = "LIFE: " + OTR.scene.player.life;
+
     if (OTR.scene.player.life <= 0){
       OTR.commonMethods.utils.showGameOver();
       return false;
@@ -520,7 +531,7 @@ OTR.commonMethods = {
       var bulletHit = false;
 
       projectile.timeToLive -= 1;
-      projectile.velocity -= projectile.velocity * 0.02;
+      projectile.velocity -= projectile.velocity * 0.015;
       projectile.obj.y -= projectile.velocity;
 
       projectile.obj.width -= projectile.obj.width/80;
@@ -535,6 +546,7 @@ OTR.commonMethods = {
             // HIT, remove bullet and enemy
             console.log("HIT")
             enemy.hitsound.sound.play();
+            OTR.commonMethods.addSplash(projectile.obj.x, projectile.obj.y);
             OTR.characters.enemies = $.grep(OTR.characters.enemies, function(e){
               return e.id != enemy.id;
             });
@@ -556,6 +568,8 @@ OTR.commonMethods = {
       }
     });
 
+		OTR.props.actors.player.tint = OTR.scene.player.originalTint;
+
     OTR.scene.enemyProjectiles.forEach(function(projectile){
 
       projectile.timeToLive -= 1;
@@ -565,10 +579,12 @@ OTR.commonMethods = {
       projectile.obj.width += projectile.obj.width/40;
       projectile.obj.height += projectile.obj.height/40;
 
+
       if (OTR.commonMethods.utils.hitTestRectangle(projectile.obj, OTR.props.actors.player)){
         // HIT, remove bullet and enemy
         console.log("PLAYER HIT");
         //enemy.hitsound.sound.play();
+				OTR.props.actors.player.tint = 0xff3300;
         OTR.scene.player.life--;
         OTR.scene.enemyProjectiles = $.grep(OTR.scene.enemyProjectiles, function(e){
           return e.id != projectile.id;
@@ -596,7 +612,8 @@ OTR.commonMethods = {
         });
       }
 */
-      if (projectile.timeToLive <= 0){
+      //if (projectile.timeToLive <= 0){
+			if (projectile.obj.y+projectile.obj.height >= OTR.canvasSize.height){
         OTR.scene.enemyProjectiles = $.grep(OTR.scene.enemyProjectiles, function(e){
           return e.id != projectile.id;
         });
@@ -615,7 +632,6 @@ OTR.commonMethods = {
       }
       if (enemy.initialX > 0 && !enemy.turnaround){
         enemy.obj.x -= 5;
-
       } else if (!enemy.turnaround) {
         enemy.obj.x += 5;
       }
