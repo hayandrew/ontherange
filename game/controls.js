@@ -41,7 +41,7 @@ OTR.controls = {
     OTR.keyFire = OTR.controls.keyboard(32);
 
     OTR.keyLeft.press = function(){
-      OTR.props.actors.player.vx = -5;
+      OTR.props.actors.player.vx = -6.5;
     };
     OTR.keyLeft.release = function(){
       if (!OTR.keyRight.isDown) {
@@ -49,7 +49,7 @@ OTR.controls = {
       }
     };
     OTR.keyRight.press = function(){
-      OTR.props.actors.player.vx = 5;
+      OTR.props.actors.player.vx = 6.5;
     };
     OTR.keyRight.release = function(){
       if (!OTR.keyLeft.isDown) {
@@ -77,8 +77,9 @@ OTR.controls = {
     projectile.width = 40;
     projectile.height = 40;
     projectile.x = enemy.obj.x + enemy.obj.width/2;
-    projectile.y = enemy.obj.y + enemy.obj.height/2;
-    projectile.z = 998;
+    //projectile.y = enemy.obj.y + enemy.obj.height/2;
+    projectile.y = enemy.obj.y;
+    projectile.z = 1001;
 
     OTR.stage.addChild(projectile);
 
@@ -98,8 +99,8 @@ OTR.controls = {
     var projectile = new OTR.Sprite(
       OTR.resources[OTR.assets.graphic.urls.projectiles.tomato].texture
     );
-    projectile.width = 80;
-    projectile.height = 80;
+    projectile.width = 100;
+    projectile.height = 100;
     projectile.x = OTR.props.actors.player.x + OTR.props.actors.player.width/2;
     projectile.y = OTR.props.actors.player.y;
     projectile.z = 999;

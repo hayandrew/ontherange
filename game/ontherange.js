@@ -371,6 +371,8 @@ OTR.commonMethods = {
 	  enemyFull.z = posY;
 	  enemyFull.vx = 0;
 	  enemyFull.vy = 0;
+    enemyFull.scale.x = enemyFull.scale.x * (posY * 0.005);
+	  enemyFull.scale.y = enemyFull.scale.y * (posY * 0.005);
 
     enemy.obj = enemyFull;
 
@@ -440,7 +442,7 @@ OTR.commonMethods = {
       var bulletHit = false;
 
       projectile.timeToLive -= 1;
-      projectile.velocity -= projectile.velocity * 0.02;
+      projectile.velocity -= projectile.velocity * 0.01;
       projectile.obj.y -= projectile.velocity;
 
       projectile.obj.width -= projectile.obj.width/80;
@@ -534,25 +536,25 @@ OTR.commonMethods = {
         }
       }
       if (enemy.initialX > 0 && !enemy.turnaround){
-        enemy.obj.x -= 5;
+        enemy.obj.position.x -= 5;
       } else if (!enemy.turnaround) {
-        enemy.obj.x += 5;
+        enemy.obj.position.x += 5;
       }
       if (enemy.initialX > 0 && enemy.turnaround){
-        enemy.obj.x += 5;
+        enemy.obj.position.x += 5;
       } else if (enemy.turnaround) {
-        enemy.obj.x -= 5;
+        enemy.obj.position.x -= 5;
       }
       if (enemy.initialX > 0){
-        if (enemy.obj.x <= enemy.initialX - enemy.constraint) {
+        if (enemy.obj.position.x <= enemy.initialX - enemy.constraint) {
           enemy.turnaround = true;
-        } else if (enemy.obj.x >= enemy.initialX) {
+        } else if (enemy.obj.position.x >= enemy.initialX) {
           enemy.turnaround = false;
         }
       } else {
-        if (enemy.obj.x >= enemy.initialX + enemy.constraint) {
+        if (enemy.obj.position.x >= enemy.initialX + enemy.constraint) {
           enemy.turnaround = true;
-        } else if (enemy.obj.x <= enemy.initialX) {
+        } else if (enemy.obj.position.x <= enemy.initialX) {
           enemy.turnaround = false;
         }
       }

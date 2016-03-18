@@ -104,13 +104,13 @@ OTR.assets = {
       OTR.resources[OTR.assets.graphic.urls.actors.player].texture
     );
 
-    OTR.props.actors.player.x = 312;
-    OTR.props.actors.player.y = 468;
+    OTR.props.actors.player.x = 362;
+    OTR.props.actors.player.y = 568;
     OTR.props.actors.player.z = 1000;
     OTR.props.actors.player.vx = 0;
     OTR.props.actors.player.vy = 0;
-    OTR.props.actors.player.width = 400;
-    OTR.props.actors.player.height = 300;
+    OTR.props.actors.player.width = 300;
+    OTR.props.actors.player.height = 200;
 
     OTR.stage.addChild(OTR.props.bg.bg1);
     OTR.stage.addChild(OTR.props.actors.player);
