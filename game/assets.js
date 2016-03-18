@@ -17,12 +17,40 @@ OTR.assets = {
         sausage: "resources/weapon_sausage.png",
         xxxTape: "resources/weapon_xxxTape.png"
       },
-	  sprites: {
-		man1: 'resources/sprites/clinton-walk.png'
-	  },
       vfx: {
-
-      }
+      },
+	    imgUrls: {
+		    clinton: {
+			    body: 'resources/sprites/clinton-walk.png',
+			    normal: 'resources/heads/clinton.png',
+			    hit: 'resources/heads/clinton-hit.png'
+		    },
+		    sanders: {
+			    body: 'resources/sprites/sanders-walk.png',
+			    normal: 'resources/heads/sanders.png',
+			    hit: 'resources/heads/sanders-hit.png'
+		    },
+		    kasich: {
+			    body: 'resources/sprites/kasich-walk.png',
+			    normal: 'resources/heads/kasich.png',
+			    hit: 'resources/heads/kasich-hit.png'
+		    },
+		    trump: {
+			    body: 'resources/sprites/trump-walk.png',
+			    normal: 'resources/heads/trump.png',
+			    hit: 'resources/heads/trump-hit.png'
+		    },
+		    cruz: {
+			    body: 'resources/sprites/cruz-walk.png',
+			    normal: 'resources/heads/cruz.png',
+			    hit: 'resources/heads/cruz-hit.png'
+		    },
+		    noah: {
+			    body: 'resources/sprites/noah-walk.png',
+			    normal: 'resources/heads/noah.png',
+			    hit: 'resources/heads/noah-hit.png'
+		    }
+	    }
     }
   },
   init: function(){
@@ -35,7 +63,27 @@ OTR.assets = {
     .add(OTR.assets.graphic.urls.projectiles.pump)
     .add(OTR.assets.graphic.urls.projectiles.sausage)
     .add(OTR.assets.graphic.urls.projectiles.xxxTape)
-	.add(OTR.assets.graphic.urls.sprites.man1)
+	    .add(OTR.assets.graphic.urls.imgUrls.clinton.body)
+	    .add(OTR.assets.graphic.urls.imgUrls.sanders.body)
+	    .add(OTR.assets.graphic.urls.imgUrls.kasich.body)
+	    .add(OTR.assets.graphic.urls.imgUrls.noah.body)
+	    .add(OTR.assets.graphic.urls.imgUrls.cruz.body)
+	    .add(OTR.assets.graphic.urls.imgUrls.trump.body)
+
+	    .add(OTR.assets.graphic.urls.imgUrls.clinton.normal)
+	    .add(OTR.assets.graphic.urls.imgUrls.sanders.normal)
+	    .add(OTR.assets.graphic.urls.imgUrls.kasich.normal)
+	    .add(OTR.assets.graphic.urls.imgUrls.noah.normal)
+	    .add(OTR.assets.graphic.urls.imgUrls.cruz.normal)
+	    .add(OTR.assets.graphic.urls.imgUrls.trump.normal)
+
+	    .add(OTR.assets.graphic.urls.imgUrls.clinton.hit)
+	    .add(OTR.assets.graphic.urls.imgUrls.sanders.hit)
+	    .add(OTR.assets.graphic.urls.imgUrls.kasich.hit)
+	    .add(OTR.assets.graphic.urls.imgUrls.noah.hit)
+	    .add(OTR.assets.graphic.urls.imgUrls.cruz.hit)
+	    .add(OTR.assets.graphic.urls.imgUrls.trump.hit)
+
     .load(OTR.assets.setup);
   },
   setup: function(loader, res){
@@ -59,41 +107,9 @@ OTR.assets = {
     OTR.props.actors.player.width = 400;
     OTR.props.actors.player.height = 300;
 
-	OTR.props.sprites.man1 = new OTR.Sprite(
-		OTR.resources[OTR.assets.graphic.urls.sprites.man1].texture
-	);
-
-	var man1 = OTR.props.sprites.man1;
-
-	  man1.x = 200;
-	  man1.y = 150;
-	  man1.width = 2640;
-	  man1.height = 500;
-
-	for(var i = 0; i < 8; i++){
-		var frame = new OTR.Texture(OTR.BaseTexture.fromImage('resources/sprites/clinton-walk.png'));
-		frame.setFrame(new OTR.Rectangle( (i *330), 0, 330, 500));
-		if(i === 0){
-			man1 = new OTR.Sprite(frame);
-			man1.animation = {};
-			man1.animation.frameNumber = 8;
-			man1.animation.frames = [];
-			man1.animation.frameCounter = 0;
-		};
-		man1.animation.frames.push(frame);
-	};
-	man1.animation.looper = setInterval(function(){
-		  man1.setTexture(man1.animation.frames[man1.animation.frameCounter]);
-		  man1.animation.frameCounter++;
-		  if(man1.animation.frameCounter === man1.animation.frames.length){
-			  man1.animation.frameCounter = 0;
-		  };
-	  }, 100);
-
     OTR.stage.addChild(OTR.props.bg.bg1);
     OTR.stage.addChild(OTR.props.actors.player);
 	OTR.stage.addChild(OTR.props.actors.player);
-	OTR.stage.addChild(man1);
 
     requestAnimationFrame(OTR.commonMethods.update);
   }

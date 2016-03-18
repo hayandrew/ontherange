@@ -30,40 +30,6 @@ Texture: PIXI.Texture,
     },
     vfx: {
     },
-	sprites: {
-	},
-	  imgUrls: {
-		  clinton: {
-			  body: 'resources/sprites/clinton-walk.png',
-			  normal: 'resources/heads/clinton.png',
-			  hit: 'resources/heads/clinton-hit.png'
-		  },
-		  sanders: {
-			  body: 'resources/sprites/sanders-walk.png',
-			  normal: 'resources/heads/sanders.png',
-			  hit: 'resources/heads/sanders-hit.png'
-		  },
-		  kasich: {
-			  body: 'resources/sprites/kasich-walk.png',
-			  normal: 'resources/heads/kasich.png',
-			  hit: 'resources/heads/kasich-hit.png'
-		  },
-		  trump: {
-			  body: 'resources/sprites/trump-walk.png',
-			  normal: 'resources/heads/trump.png',
-			  hit: 'resources/heads/trump-hit.png'
-		  },
-		  cruz: {
-			  body: 'resources/sprites/cruz-walk.png',
-			  normal: 'resources/heads/cruz.png',
-			  hit: 'resources/heads/cruz-hit.png'
-		  },
-		  noah: {
-			  body: 'resources/sprites/noah-walk.png',
-			  normal: 'resources/heads/noah.png',
-			  hit: 'resources/heads/noah-hit.png'
-		  }
-	  },
 	  sounds: {
 		  throw: new Audio("resources/audio/swipe.ogg"),
 		  bernie: [
@@ -238,7 +204,7 @@ OTR.commonMethods = {
         "turnaround": false,
         "obj": null
       },
-      avatar = "",
+      avatar = null,
       plusOrMinus = Math.random() < 0.5 ? -1 : 1,
       randomValue = Math.floor((Math.random() * 10) + 1);
     if (randomValue >= 8.5) {
@@ -248,9 +214,9 @@ OTR.commonMethods = {
       enemy.hitsound = OTR.props.sounds.hillary[0];
       enemy.sounds = OTR.props.sounds.hillary;
       enemy.weapon = OTR.assets.graphic.urls.projectiles.pump;
-	    enemy.body = OTR.props.imgUrls.clinton.body;
-	    enemy.head = OTR.props.imgUrls.clinton.normal;
-	    enemy.hit = OTR.props.imgUrls.clinton.hit;
+	    enemy.body = OTR.assets.graphic.urls.imgUrls.clinton.body;
+	    enemy.head = OTR.assets.graphic.urls.imgUrls.clinton.normal;
+	    enemy.hit = OTR.assets.graphic.urls.imgUrls.clinton.hit;
     } else if (randomValue >= 7) {
       enemy.person = "donald";
       enemy.contraint += 20 * randomValue;
@@ -258,9 +224,9 @@ OTR.commonMethods = {
       enemy.hitsound = OTR.props.sounds.donald[0];
       enemy.sounds = OTR.props.sounds.donald;
       enemy.weapon = OTR.assets.graphic.urls.projectiles.goldbar;
-	    enemy.body = OTR.props.imgUrls.trump.body;
-	    enemy.head = OTR.props.imgUrls.trump.normal;
-	    enemy.hit = OTR.props.imgUrls.trump.hit;
+	    enemy.body = OTR.assets.graphic.urls.imgUrls.trump.body;
+	    enemy.head = OTR.assets.graphic.urls.imgUrls.trump.normal;
+	    enemy.hit = OTR.assets.graphic.urls.imgUrls.trump.hit;
     } else if (randomValue >= 4.5) {
       enemy.person = "bernie";
       enemy.contraint += 20 * randomValue;
@@ -268,9 +234,9 @@ OTR.commonMethods = {
       enemy.hitsound = OTR.props.sounds.bernie[0];
       enemy.sounds = OTR.props.sounds.bernie;
       enemy.weapon = OTR.assets.graphic.urls.projectiles.money;
-	    enemy.body = OTR.props.imgUrls.sanders.body;
-	    enemy.head = OTR.props.imgUrls.sanders.normal;
-	    enemy.hit = OTR.props.imgUrls.sanders.hit;
+	    enemy.body = OTR.assets.graphic.urls.imgUrls.sanders.body;
+	    enemy.head = OTR.assets.graphic.urls.imgUrls.sanders.normal;
+	    enemy.hit = OTR.assets.graphic.urls.imgUrls.sanders.hit;
     }else if (randomValue >= 3) {
       enemy.person = "john";
       enemy.contraint += 20 * randomValue;
@@ -278,9 +244,9 @@ OTR.commonMethods = {
       enemy.hitsound = OTR.props.sounds.john[0];
       enemy.sounds = OTR.props.sounds.john;
       enemy.weapon = OTR.assets.graphic.urls.projectiles.sausage;
-	    enemy.body = OTR.props.imgUrls.kasich.body;
-	    enemy.head = OTR.props.imgUrls.kasich.normal;
-	    enemy.hit = OTR.props.imgUrls.kasich.hit;
+	    enemy.body = OTR.assets.graphic.urls.imgUrls.kasich.body;
+	    enemy.head = OTR.assets.graphic.urls.imgUrls.kasich.normal;
+	    enemy.hit = OTR.assets.graphic.urls.imgUrls.kasich.hit;
     }else if (randomValue >= 1.5) {
       enemy.person = "ted";
       enemy.contraint += 20 * randomValue;
@@ -288,9 +254,9 @@ OTR.commonMethods = {
       enemy.hitsound = OTR.props.sounds.ted[0];
       enemy.sounds = OTR.props.sounds.ted;
       enemy.weapon = OTR.assets.graphic.urls.projectiles.xxxTape;
-	    enemy.body = OTR.props.imgUrls.cruz.body;
-	    enemy.head = OTR.props.imgUrls.cruz.normal;
-	    enemy.hit = OTR.props.imgUrls.cruz.hit;
+	    enemy.body = OTR.assets.graphic.urls.imgUrls.cruz.body;
+	    enemy.head = OTR.assets.graphic.urls.imgUrls.cruz.normal;
+	    enemy.hit = OTR.assets.graphic.urls.imgUrls.cruz.hit;
     }else {
       enemy.person = "trevor";
       enemy.contraint += 20 * randomValue;
@@ -298,19 +264,45 @@ OTR.commonMethods = {
       enemy.hitsound = OTR.props.sounds.trevor[0];
       enemy.sounds = OTR.props.sounds.trevor;
       enemy.weapon = null;
-	    enemy.body = OTR.props.imgUrls.noah.body;
-	    enemy.head = OTR.props.imgUrls.noah.normal;
-	    enemy.hit = OTR.props.imgUrls.noah.hit;
+	    enemy.body = OTR.assets.graphic.urls.imgUrls.noah.body;
+	    enemy.head = OTR.assets.graphic.urls.imgUrls.noah.normal;
+	    enemy.hit = OTR.assets.graphic.urls.imgUrls.noah.hit;
     }
     enemy.contraint += plusOrMinus * 100;
     enemy.fireDelay = 0;
     enemy.fireRate = 110 + (plusOrMinus * 10);
+
+	// add enemy object
     enemy.obj = new OTR.Sprite(
-      OTR.resources[enemy.avatar].texture
+      OTR.resources[enemy.body].texture
     );
+
+	  enemy.obj.width = 2640;
+	  enemy.obj.height = 500;
+
+	  for(var i = 0; i < 8; i++){
+		  var frame = new OTR.Texture(OTR.BaseTexture.fromImage(enemy.body));
+		  frame.setFrame(new OTR.Rectangle( (i *330), 0, 330, 500));
+		  if(i === 0){
+			  enemy.obj = new OTR.Sprite(frame);
+			  enemy.obj.animation = {};
+			  enemy.obj.animation.frameNumber = 8;
+			  enemy.obj.animation.frames = [];
+			  enemy.obj.animation.frameCounter = 0;
+		  };
+		  enemy.obj.animation.frames.push(frame);
+	  };
+	  enemy.obj.animation.looper = setInterval(function(){
+		  enemy.obj.setTexture(enemy.obj.animation.frames[enemy.obj.animation.frameCounter]);
+		  enemy.obj.animation.frameCounter++;
+		  if(enemy.obj.animation.frameCounter === enemy.obj.animation.frames.length){
+			  enemy.obj.animation.frameCounter = 0;
+		  };
+	  }, 100);
+
     var posY = Math.floor(Math.random() * 100) + 100;
-    enemy.obj.width = 330 * 0.5;
-    enemy.obj.height = 500 * 0.5;
+    //enemy.obj.width = 330 * 0.5;
+    //enemy.obj.height = 500 * 0.5;
     enemy.obj.x = Math.round(Math.random()) * (OTR.canvasSize.width - enemy.obj.width);
     enemy.initialX = enemy.obj.x;
     enemy.obj.y = posY;
