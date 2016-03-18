@@ -1,28 +1,123 @@
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-  <title>On the Range, a political shooting game</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Rage Rally with Trevor Noah</title>
+	<meta name="author" content="" />
+	<meta name="description" content="Make your opponents wet." />
+	<meta name="keywords"  content="" />
+	<meta name="Resource-type" content="Document" />
+
+
+	<link rel="stylesheet" type="text/css" href="dist/jquery.fullPage.css" />
+	<link rel="stylesheet" type="text/css" href="dist/examples.css" />
+    <link rel="stylesheet" type="text/css" href="dist/style.css" />
+
+
+	<style>
+
+		/* Sections
+		 * --------------------------------------- */
+		#section0 img,
+		#section1 img{
+			margin: 20px 0 0 0;
+		}
+		#section2 img{
+			margin: 20px 0 0 52px;
+		}
+		#section3 img{
+			bottom: 0px;
+			position: absolute;
+			margin-left: -420px;
+		}
+		.intro p{
+			width: 50%;
+			margin: 0 auto;
+			font-size: 1.5em;
+		}
+		.twitter-share-button{
+			position: absolute;
+			z-index: 99;
+			right: 149px;
+			top: 9px;
+		}
+
+	</style>
+	<!--[if IE]>
+		<script type="text/javascript">
+			 var console = { log: function() {} };
+		</script>
+	<![endif]-->
+
+	<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>-->
+    <script src="jquery/jquery-2.2.2.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+    <script src="pixijs/pixi.min.js"></script>
+    <script src="game/ontherange.js"></script>
+    <script src="game/controls.js"></script>
+    <script src="game/assets.js"></script>
+
+	<script type="text/javascript" src="dist/jquery.fullPage.js"></script>
+	<script type="text/javascript" src="dist/examples.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#fullpage').fullpage({
+				sectionsColor: ['#1bbc9b', '#4BBFC3', '#7BAABE', 'whitesmoke', '#ccddff'],
+				//anchors: ['firstPage', 'secondPage', '3rdPage', '4thpage', 'lastPage'],
+				//menu: '#menu',
+				scrollingSpeed: 1000
+			});
+
+		});
+	</script>
+
 </head>
-<body style="background-color: #000;">
-  <script src="jquery/jquery-2.2.2.min.js"></script>
-  <script src="pixijs/pixi.min.js"></script>
-  <script src="game/ontherange.js"></script>
-  <script src="game/controls.js"></script>
-  <script src="game/assets.js"></script>
-  <script>
-
-  //Test that Pixi is working
-  //console.log(PIXI);
-  $( document ).ready(function() {
-      OTR.commonMethods.init();
-
-      //console.log(OTR);
-  });
+<body>
 
 
-  </script>
+<div id="fullpage">
 
-  <div align="center">
-    <canvas id="game-canvas" width="1024" height="768"></canvas>
-  </div>
+	<div class="section" id="section1">
+	    <div class="slide">
+            <div class="wrapper">
+                <div class="content">
+                    <div class="logo">
+                        GIANT LOGO HERE?
+                    </div>
+                    <div class="play">
+                        Play
+                    </div>
+                    <div class="credits">
+                        Credits
+                    </div>
+                </div>
+            </div>
+		</div>
+	    <div class="slide">
+			<h1>Choose Your Candidate</h1>
+            <div class="candidate"><img src="resources/heads/clinton.png"/></div>
+            <div class="candidate"><img src="resources/heads/cruz.png"/></div>
+            <div class="candidate"><img src="resources/heads/sanders.png"/></div>
+            <div class="candidate"><img src="resources/heads/kasich.png"/></div>
+            <div class="candidate"><img src="resources/heads/trump.png"/></div>
+		</div>
+	    <div class="slide">
+			<div class="intro">
+				<img src="examples/imgs/2.png" alt="Cool" />
+				<h1>Cool</h1>
+				<p>It just looks cool. Impress everybody with a simple and modern web design!</p>
+			</div>
+		</div>
+	    <div class="slide">
+			<div class="intro">
+				<img src="examples/imgs/3.png" alt="Compatible" />
+				<h1>Compatible</h1>
+				<p>Working in modern and old browsers too! IE 8 users don't have the fault of using that horrible browser! Lets give them a chance to see your site in a proper way!</p>
+			</div>
+		</div>
+	</div>
+</div>
+
 </body>
 </html>
