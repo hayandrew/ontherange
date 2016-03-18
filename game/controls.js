@@ -66,6 +66,31 @@ OTR.controls = {
 
     };
   },
+  enemyFireProjectile: function(enemy){
+    if (enemy.sounds.length > 1){
+      enemy.sounds[1].sound.play();
+      //OTR.props.sounds.throw.play();
+    }
+    var projectile = new OTR.Sprite(
+      OTR.resources[enemy.weapon].texture
+    );
+    projectile.width = 40;
+    projectile.height = 40;
+    projectile.x = enemy.obj.x + enemy.obj.width/2;
+    projectile.y = enemy.obj.y + enemy.obj.height/2;
+    projectile.z = 998;
+
+    OTR.stage.addChild(projectile);
+
+    OTR.scene.enemyProjectiles.push({
+      "id": ++OTR.enemyBulletCounter,
+      "active": true,
+      "timeToLive": 120,
+      "distance": 0,
+      "velocity": 6.5,
+      obj: projectile
+    });
+  },
   fireProjectile: function(){
 
     OTR.props.sounds.throw.play();
@@ -75,7 +100,7 @@ OTR.controls = {
     );
     projectile.width = 80;
     projectile.height = 80;
-    projectile.x = OTR.props.actors.player.x + OTR.props.actors.player.x/2;
+    projectile.x = OTR.props.actors.player.x + OTR.props.actors.player.width/2;
     projectile.y = OTR.props.actors.player.y;
     projectile.z = 999;
 

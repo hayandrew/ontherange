@@ -11,6 +11,7 @@ OTR = {
   enemyCounter: 0,
   bulletDelay: 0,
   bulletCounter: 0,
+  enemyBulletCounter: 0,
   Container: PIXI.Container,
   TextureCache: PIXI.utils.TextureCache,
   autoDetectRenderer: PIXI.autoDetectRenderer,
@@ -112,7 +113,11 @@ Texture: PIXI.Texture,
 	  }
   },
   scene: {
-    projectiles: []
+    player: {
+      "life": 3
+    },
+    projectiles: [],
+    enemyProjectiles: []
   }
 };
 OTR.commonMethods = {
@@ -209,33 +214,47 @@ OTR.commonMethods = {
       enemy.contraint += 20 * randomValue;
       enemy.avatar = OTR.assets.graphic.urls.actors.player;
       enemy.hitsound = OTR.props.sounds.hillary[0];
+      enemy.sounds = OTR.props.sounds.hillary;
+      enemy.weapon = OTR.assets.graphic.urls.projectiles.pump;
     } else if (randomValue >= 7) {
       enemy.person = "donald";
       enemy.contraint += 20 * randomValue;
       enemy.avatar = OTR.assets.graphic.urls.actors.player;
       enemy.hitsound = OTR.props.sounds.donald[0];
+      enemy.sounds = OTR.props.sounds.donald;
+      enemy.weapon = OTR.assets.graphic.urls.projectiles.goldbar;
     } else if (randomValue >= 4.5) {
       enemy.person = "bernie";
       enemy.contraint += 20 * randomValue;
       enemy.avatar = OTR.assets.graphic.urls.actors.player;
       enemy.hitsound = OTR.props.sounds.bernie[0];
+      enemy.sounds = OTR.props.sounds.bernie;
+      enemy.weapon = OTR.assets.graphic.urls.projectiles.money;
     }else if (randomValue >= 3) {
       enemy.person = "john";
       enemy.contraint += 20 * randomValue;
       enemy.avatar = OTR.assets.graphic.urls.actors.player;
       enemy.hitsound = OTR.props.sounds.john[0];
+      enemy.sounds = OTR.props.sounds.john;
+      enemy.weapon = OTR.assets.graphic.urls.projectiles.sausage;
     }else if (randomValue >= 1.5) {
       enemy.person = "ted";
       enemy.contraint += 20 * randomValue;
       enemy.avatar = OTR.assets.graphic.urls.actors.player;
       enemy.hitsound = OTR.props.sounds.ted[0];
+      enemy.sounds = OTR.props.sounds.ted;
+      enemy.weapon = OTR.assets.graphic.urls.projectiles.xxxTape;
     }else {
       enemy.person = "trevor";
       enemy.contraint += 20 * randomValue;
       enemy.avatar = OTR.assets.graphic.urls.actors.player;
       enemy.hitsound = OTR.props.sounds.trevor[0];
+      enemy.sounds = OTR.props.sounds.trevor;
+      enemy.weapon = null;
     }
     enemy.contraint += plusOrMinus * 100;
+    enemy.fireDelay = 0;
+    enemy.fireRate = 110 + (plusOrMinus * 10);
     enemy.obj = new OTR.Sprite(
       OTR.resources[enemy.avatar].texture
     );
@@ -309,7 +328,53 @@ OTR.commonMethods = {
       }
     });
 
+    OTR.scene.enemyProjectiles.forEach(function(projectile){
+      var bulletHit = false;
+
+      projectile.timeToLive -= 1;
+      projectile.velocity += projectile.velocity * 0.01;
+      projectile.obj.y += projectile.velocity;
+
+      projectile.obj.width += projectile.obj.width/50;
+      projectile.obj.height += projectile.obj.height/50;
+/*
+      if (projectile.active){
+        OTR.characters.enemies.forEach(function(enemy){
+          if (OTR.commonMethods.utils.hitTestRectangle(projectile.obj, enemy.obj)){
+            // HIT, remove bullet and enemy
+            console.log("HIT")
+            enemy.hitsound.sound.play();
+            OTR.characters.enemies = $.grep(OTR.characters.enemies, function(e){
+              return e.id != enemy.id;
+            });
+            OTR.scene.projectiles = $.grep(OTR.scene.projectiles, function(e){
+              return e.id != projectile.id;
+            });
+            OTR.stage.removeChild(enemy.obj);
+            OTR.stage.removeChild(projectile.obj);
+            bulletHit = true;
+          }
+        });
+      }
+*/
+      if (projectile.timeToLive <= 0 && !bulletHit){
+        OTR.scene.enemyProjectiles = $.grep(OTR.scene.enemyProjectiles, function(e){
+          return e.id != projectile.id;
+        });
+        OTR.stage.removeChild(projectile.obj);
+      }
+    });
+
     OTR.characters.enemies.forEach(function(enemy){
+
+      if (enemy.weapon){
+        enemy.fireDelay++;
+        if (enemy.fireDelay >= enemy.fireRate){
+          OTR.controls.enemyFireProjectile(enemy);
+          enemy.fireDelay = 0;
+        }
+      }
+
       if (enemy.initialX > 0 && !enemy.turnaround){
         enemy.obj.x -= 4;
       } else if (!enemy.turnaround) {

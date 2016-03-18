@@ -10,7 +10,12 @@ OTR.assets = {
         player: "resources/throwing-arm.jpg"
       },
       projectiles: {
-        tomato: "resources/tomato.png"
+        tomato: "resources/tomato.png",
+        goldbar: "resources/weapon_gold.png",
+        money: "resources/weapon_money.png",
+        pump: "resources/weapon_pump.png",
+        sausage: "resources/weapon_sausage.png",
+        xxxTape: "resources/weapon_xxxTape.png"
       },
 	  sprites: {
 		man1: 'resources/sprites/clinton-walk.png'
@@ -25,6 +30,11 @@ OTR.assets = {
     .add(OTR.assets.graphic.urls.backgrounds.bg1)
     .add(OTR.assets.graphic.urls.actors.player)
     .add(OTR.assets.graphic.urls.projectiles.tomato)
+    .add(OTR.assets.graphic.urls.projectiles.goldbar)
+    .add(OTR.assets.graphic.urls.projectiles.money)
+    .add(OTR.assets.graphic.urls.projectiles.pump)
+    .add(OTR.assets.graphic.urls.projectiles.sausage)
+    .add(OTR.assets.graphic.urls.projectiles.xxxTape)
 	.add(OTR.assets.graphic.urls.sprites.man1)
     .load(OTR.assets.setup);
   },
