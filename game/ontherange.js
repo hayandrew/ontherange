@@ -25,6 +25,85 @@ OTR = {
     projectiles: {
     },
     vfx: {
+    },
+    sounds: {
+      throw: new Audio("resources/audio/swipe.ogg"),
+      bernie: [
+        {
+          id:0,
+          sound: new Audio("resources/audio/bernie-sanders-shot-hit-it-doesnt-matter.ogg")
+        },
+        {
+          id:1,
+          sound: new Audio("resources/audio/bernie-sanders-shot-hit-we-are-going-to-get-our-way-no-matter-what.ogg")
+        },
+        {
+          id:2,
+          sound: new Audio("resources/audio/bernie-sanders-shot-miss-enough-with-the-hellos-lets-do-this.ogg")
+        }
+      ],
+      donald: [
+        {
+          id:0,
+          sound: new Audio("resources/audio/donald-trump-shot-hit-son-of-a-bitch.ogg")
+        },
+        {
+          id:1,
+          sound: new Audio("resources/audio/donald-trump-shot-miss-he-s-terrible.ogg")
+        },
+        {
+          id:2,
+          sound: new Audio("resources/audio/donald-trump-shot-miss-i-yiii-yiii.ogg")
+        },
+        {
+          id:3,
+          sound: new Audio("resources/audio/donald-trump-the-hell-outta-here-will-you-please.ogg")
+        },
+        {
+          id:4,
+          sound: new Audio("resources/audio/donald-trump-what-kind-of-people-do-i-have-here.ogg")
+        }
+      ],
+      hillary: [
+        {
+          id:0,
+          sound: new Audio("resources/audio/hillary-clinton-shot-hit-you-re-not-patriotic.ogg")
+        },
+        {
+          id:1,
+          sound: new Audio("resources/audio/hillary-clinton-shot-miss-laughing.ogg")
+        }
+      ],
+      john: [
+        {
+          id:0,
+          sound: new Audio("resources/audio/john-kasich-shot-hit-i-will-be-a-winner-regardless-of-what-happens.ogg")
+        },
+        {
+          id:1,
+          sound: new Audio("resources/audio/john-kasich-shot-miss-come-on-folks.ogg")
+        }
+      ],
+      ted: [
+        {
+          id:0,
+          sound: new Audio("resources/audio/ted-cruz-shot-hit-the-world-is-on-fire-YES.ogg")
+        },
+        {
+          id:1,
+          sound: new Audio("resources/audio/ted-cruz-shot-miss-it-is-now-or-never.ogg")
+        },
+        {
+          id:2,
+          sound: new Audio("resources/audio/ted-cruz-shot-miss-it-s-great-to-be-with-you.ogg")
+        }
+      ],
+      trevor: [
+        {
+          id:0,
+          sound: new Audio("resources/audio/trevor-noah-wow-wow.ogg")
+        }
+      ]
     }
   },
   scene: {
@@ -120,14 +199,36 @@ OTR.commonMethods = {
       avatar = "",
       plusOrMinus = Math.random() < 0.5 ? -1 : 1,
       randomValue = Math.floor((Math.random() * 10) + 1);
-    if (randomValue >= 5) {
-      enemy.faction = "DEMOCRATIC";
+    if (randomValue >= 8.5) {
+      enemy.person = "hillary";
       enemy.contraint += 20 * randomValue;
       enemy.avatar = OTR.assets.graphic.urls.actors.player;
-    } else {
-      enemy.faction = "REPUBLICAN";
+      enemy.hitsound = OTR.props.sounds.hillary[0];
+    } else if (randomValue >= 7) {
+      enemy.person = "donald";
       enemy.contraint += 20 * randomValue;
       enemy.avatar = OTR.assets.graphic.urls.actors.player;
+      enemy.hitsound = OTR.props.sounds.donald[0];
+    } else if (randomValue >= 4.5) {
+      enemy.person = "bernie";
+      enemy.contraint += 20 * randomValue;
+      enemy.avatar = OTR.assets.graphic.urls.actors.player;
+      enemy.hitsound = OTR.props.sounds.bernie[0];
+    }else if (randomValue >= 3) {
+      enemy.person = "john";
+      enemy.contraint += 20 * randomValue;
+      enemy.avatar = OTR.assets.graphic.urls.actors.player;
+      enemy.hitsound = OTR.props.sounds.john[0];
+    }else if (randomValue >= 1.5) {
+      enemy.person = "ted";
+      enemy.contraint += 20 * randomValue;
+      enemy.avatar = OTR.assets.graphic.urls.actors.player;
+      enemy.hitsound = OTR.props.sounds.ted[0];
+    }else {
+      enemy.person = "trevor";
+      enemy.contraint += 20 * randomValue;
+      enemy.avatar = OTR.assets.graphic.urls.actors.player;
+      enemy.hitsound = OTR.props.sounds.trevor[0];
     }
     enemy.contraint += plusOrMinus * 100;
     enemy.obj = new OTR.Sprite(
@@ -181,6 +282,7 @@ OTR.commonMethods = {
           if (OTR.commonMethods.utils.hitTestRectangle(projectile.obj, enemy.obj)){
             // HIT, remove bullet and enemy
             console.log("HIT")
+            enemy.hitsound.sound.play();
             OTR.characters.enemies = $.grep(OTR.characters.enemies, function(e){
               return e.id != enemy.id;
             });

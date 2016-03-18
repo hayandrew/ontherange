@@ -67,6 +67,9 @@ OTR.controls = {
     };
   },
   fireProjectile: function(){
+
+    OTR.props.sounds.throw.play();
+
     var projectile = new OTR.Sprite(
       OTR.resources[OTR.assets.graphic.urls.projectiles.tomato].texture
     );
