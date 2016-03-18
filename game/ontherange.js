@@ -372,12 +372,14 @@ OTR.commonMethods = {
 	  enemyFull.vx = 0;
 	  enemyFull.vy = 0;
 
-    //OTR.characters.enemies.push(enemyFull);
-    //OTR.stage.addChild(enemy.obj);
-    //OTR.stage.children.sort(OTR.commonMethods.utils.depthCompare);*/
+    enemy.obj = enemyFull;
 
-	  OTR.stage.addChild(enemyFull);
-	  this.addSplash(100,200)
+    OTR.characters.enemies.push(enemy);
+    OTR.stage.addChild(enemy.obj);
+    OTR.stage.children.sort(OTR.commonMethods.utils.depthCompare);
+
+	  //OTR.stage.addChild(enemyFull);
+	  //this.addSplash(100,200)
 
   },
 
