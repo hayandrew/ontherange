@@ -3,3 +3,4 @@ $(document).ready(function(){
 	  window.location.href = $(this).find("option:selected").attr("id") + '.html';
 	});
 });
+
