@@ -1,28 +1,27 @@
 <html>
 <head>
-  <title>On the Range, a political shooting game</title>
+    <title>On the Range, a political shooting game</title>
+    <link rel="stylesheet" type="text/css" href="dist/style.css" />
 </head>
 <body style="background-color: #000;">
-  <script src="jquery/jquery-2.2.2.min.js"></script>
-  <script src="pixijs/pixi.min.js"></script>
-  <script src="game/ontherange.js"></script>
-  <script src="game/controls.js"></script>
-  <script src="game/assets.js"></script>
-  <script>
+    <script src="jquery/jquery-2.2.2.min.js"></script>
+    <script src="pixijs/pixi.min.js"></script>
+    <script src="game/ontherange.js"></script>
+    <script src="game/controls.js"></script>
+    <script src="game/assets.js"></script>
+    <script>
+      $( document ).ready(function() {
+          OTR.commonMethods.init();
 
-  //Test that Pixi is working
-  //console.log(PIXI);
-  $( document ).ready(function() {
-      OTR.commonMethods.init();
+          //console.log(OTR);
+      });
+    </script>
 
-      //console.log(OTR);
-  });
-
-
-  </script>
-
-  <div align="center">
-    <canvas id="game-canvas" width="1024" height="768"></canvas>
-  </div>
+    <div id="page">
+        <div id="content">
+            <div id="score">Score: <span>0</span></div>
+            <canvas id="game-canvas" width="1024" height="768"></canvas>
+        </div>
+    </div>
 </body>
 </html>

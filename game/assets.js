@@ -10,6 +10,7 @@ OTR.assets = {
         player: "resources/launcher.png"
       },
       projectiles: {
+				waterballoon: "resources/waterballoon.png",
         tomato: "resources/tomato.png",
         goldbar: "resources/weapon_gold.png",
         money: "resources/weapon_money.png",
@@ -58,7 +59,7 @@ OTR.assets = {
     OTR.loader
     .add(OTR.assets.graphic.urls.backgrounds.bg1)
     .add(OTR.assets.graphic.urls.actors.player)
-    .add(OTR.assets.graphic.urls.projectiles.tomato)
+    .add(OTR.assets.graphic.urls.projectiles.waterballoon)
     .add(OTR.assets.graphic.urls.projectiles.goldbar)
     .add(OTR.assets.graphic.urls.projectiles.money)
     .add(OTR.assets.graphic.urls.projectiles.pump)
@@ -104,8 +105,8 @@ OTR.assets = {
       OTR.resources[OTR.assets.graphic.urls.actors.player].texture
     );
 
-    OTR.props.actors.player.x = 312;
-    OTR.props.actors.player.y = 538;
+    OTR.props.actors.player.x = 361;
+    OTR.props.actors.player.y = 537;
     OTR.props.actors.player.z = 1000;
     OTR.props.actors.player.vx = 0;
     OTR.props.actors.player.vy = 0;
@@ -115,6 +116,15 @@ OTR.assets = {
     OTR.stage.addChild(OTR.props.bg.bg1);
     OTR.stage.addChild(OTR.props.actors.player);
 
+		OTR.scene.player.originalTint = OTR.props.actors.player.tint;
+
+		OTR.scene.messaging.life = new PIXI.Text(
+			"LIFE: " + OTR.scene.player.life,
+			{font: "52px sans-serif", fill: "white"}
+		);
+		OTR.scene.messaging.life.z = 2000;
+		OTR.scene.messaging.life.position.set(40, 40);
+		OTR.stage.addChild(OTR.scene.messaging.life);
 
     requestAnimationFrame(OTR.commonMethods.update);
   }

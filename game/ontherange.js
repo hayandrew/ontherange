@@ -146,11 +146,18 @@ Texture: PIXI.Texture,
   },
   scene: {
     player: {
-      "life": 3
+      "life": 3,
+      score: 0,
+      "originalTint": "",
+      "character": ""
     },
+		messaging: {
+			life: null
+		},
     projectiles: [],
     enemyProjectiles: []
   }
+
 };
 OTR.commonMethods = {
   init: function(){
@@ -172,6 +179,13 @@ OTR.commonMethods = {
     OTR.controls.setup();
   },
   utils: {
+    incrementScore: function (obj) {
+        var score = document.getElementById('score'),
+            scoreCount = score.getElementsByTagName('span')[0];
+
+        obj.scene.player.score += 1;
+        scoreCount.innerText=obj.scene.player.score;
+    },
     showGameOver: function() {
       alert("Game Over");
     },
@@ -180,6 +194,57 @@ OTR.commonMethods = {
       if (a.z > b.z) return 1;
       return 0;
     },
+      hitEnemy: function(r1, r2) {
+
+          //Define the variables we'll need to calculate
+          var hit, combinedHalfWidths, combinedHalfHeights, vx, vy;
+
+          //hit will determine whether there's a collision
+          hit = false;
+
+          //Find the center points of each sprite
+          r1.centerX = r1.x + r1.width / 2;
+          r1.centerY = r1.y + r1.height / 2;
+          r2.centerX = r2.x + r2.width / 2;
+          r2.centerY = r2.y + r2.height / 2;
+
+          //Find the half-widths and half-heights of each sprite
+          r1.halfWidth = r1.width / 2;
+          r1.halfHeight = r1.height / 2;
+          r2.halfWidth = r2.width / 2;
+          r2.halfHeight = r2.height / 2;
+
+          //Calculate the distance vector between the sprites
+          vx = r1.centerX - r2.centerX;
+          vy = r1.centerY - r2.centerY;
+
+          //Figure out the combined half-widths and half-heights
+          combinedHalfWidths = r1.halfWidth + r2.halfWidth;
+          combinedHalfHeights = r1.halfHeight + r2.halfHeight;
+
+          //Check for a collision on the x axis
+          if (Math.abs(vx) < combinedHalfWidths) {
+
+              //A collision might be occuring. Check for a collision on the y axis
+              if (Math.abs(vy) < combinedHalfHeights) {
+
+                  //There's definitely a collision happening
+                  hit = true;
+                  OTR.commonMethods.utils.incrementScore(OTR);
+              } else {
+
+                  //There's no collision on the y axis
+                  hit = false;
+              }
+          } else {
+
+              //There's no collision on the x axis
+              hit = false;
+          }
+
+          //`hit` will be either `true` or `false`
+          return hit;
+      },
     hitTestRectangle: function(r1, r2) {
 
       //Define the variables we'll need to calculate
@@ -391,6 +456,8 @@ OTR.commonMethods = {
 	  enemyFull.z = posY;
 	  enemyFull.vx = 0;
 	  enemyFull.vy = 0;
+    enemyFull.scale.x = enemyFull.scale.x * (posY * 0.008);
+	  enemyFull.scale.y = enemyFull.scale.y * (posY * 0.008);
 
     enemy.obj = enemyFull;
 
@@ -404,16 +471,13 @@ OTR.commonMethods = {
   },
 
 	addSplash: function(xpos,ypos) {
-		OTR.props.vfx.splash = new OTR.Sprite(
+		var splash = new OTR.Sprite(
 			OTR.resources[OTR.assets.graphic.urls.vfx.splash].texture
 		);
 
-		var splash = OTR.props.vfx.splash;
-
-		splash.width = 1000;
+		//var splash = OTR.props.vfx.splash;
+		splash.width = 200;
 		splash.height = 200;
-		splash.x = xpos;
-		splash.y = ypos;
 
 		for(var i = 0; i < 5; i++){
 			var frame = new OTR.Texture(OTR.BaseTexture.fromImage(OTR.assets.graphic.urls.vfx.splash));
@@ -433,8 +497,13 @@ OTR.commonMethods = {
 			splash.animation.frameCounter++;
 			if(splash.animation.frameCounter === splash.animation.frames.length){
 				splash.animation.frameCounter = 0;
+				OTR.stage.removeChild(splash);
+				clearInterval(splash.animation.looper);
 			};
 		}, 100);
+		splash.x = xpos - splash.width/2;
+		splash.y = ypos - splash.height/2;
+    splash.z = 1001;
 		OTR.stage.addChild(splash);
 	},
 
@@ -445,6 +514,8 @@ OTR.commonMethods = {
   },
 
   update: function(){
+		OTR.scene.messaging.life.text = "LIFE: " + OTR.scene.player.life;
+
     if (OTR.scene.player.life <= 0){
       OTR.commonMethods.utils.showGameOver();
       return false;
@@ -460,7 +531,7 @@ OTR.commonMethods = {
       var bulletHit = false;
 
       projectile.timeToLive -= 1;
-      projectile.velocity -= projectile.velocity * 0.02;
+      projectile.velocity -= projectile.velocity * 0.015;
       projectile.obj.y -= projectile.velocity;
 
       projectile.obj.width -= projectile.obj.width/80;
@@ -471,10 +542,11 @@ OTR.commonMethods = {
       }
       if (projectile.active){
         OTR.characters.enemies.forEach(function(enemy){
-          if (OTR.commonMethods.utils.hitTestRectangle(projectile.obj, enemy.obj)){
+          if (OTR.commonMethods.utils.hitEnemy(projectile.obj, enemy.obj)){
             // HIT, remove bullet and enemy
             console.log("HIT")
             enemy.hitsound.sound.play();
+            OTR.commonMethods.addSplash(projectile.obj.x, projectile.obj.y);
             OTR.characters.enemies = $.grep(OTR.characters.enemies, function(e){
               return e.id != enemy.id;
             });
@@ -496,6 +568,8 @@ OTR.commonMethods = {
       }
     });
 
+		OTR.props.actors.player.tint = OTR.scene.player.originalTint;
+
     OTR.scene.enemyProjectiles.forEach(function(projectile){
 
       projectile.timeToLive -= 1;
@@ -505,10 +579,12 @@ OTR.commonMethods = {
       projectile.obj.width += projectile.obj.width/40;
       projectile.obj.height += projectile.obj.height/40;
 
+
       if (OTR.commonMethods.utils.hitTestRectangle(projectile.obj, OTR.props.actors.player)){
         // HIT, remove bullet and enemy
         console.log("PLAYER HIT");
         //enemy.hitsound.sound.play();
+				OTR.props.actors.player.tint = 0xff3300;
         OTR.scene.player.life--;
         OTR.scene.enemyProjectiles = $.grep(OTR.scene.enemyProjectiles, function(e){
           return e.id != projectile.id;
@@ -536,7 +612,8 @@ OTR.commonMethods = {
         });
       }
 */
-      if (projectile.timeToLive <= 0){
+      //if (projectile.timeToLive <= 0){
+			if (projectile.obj.y+projectile.obj.height >= OTR.canvasSize.height){
         OTR.scene.enemyProjectiles = $.grep(OTR.scene.enemyProjectiles, function(e){
           return e.id != projectile.id;
         });
@@ -555,7 +632,6 @@ OTR.commonMethods = {
       }
       if (enemy.initialX > 0 && !enemy.turnaround){
         enemy.obj.x -= 5;
-
       } else if (!enemy.turnaround) {
         enemy.obj.x += 5;
       }
