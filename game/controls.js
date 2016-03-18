@@ -57,13 +57,19 @@ OTR.controls = {
       }
     };
     OTR.keyFire.press = function(){
-      OTR.controls.fireProjectile();
+      if (OTR.bulletDelay >= 60){
+        OTR.bulletDelay = 0;
+        OTR.controls.fireProjectile();
+      }
     };
     OTR.keyFire.release = function(){
 
     };
   },
   fireProjectile: function(){
+
+    OTR.props.sounds.throw.play();
+
     var projectile = new OTR.Sprite(
       OTR.resources[OTR.assets.graphic.urls.projectiles.tomato].texture
     );
@@ -76,6 +82,8 @@ OTR.controls = {
     OTR.stage.addChild(projectile);
 
     OTR.scene.projectiles.push({
+      "id": ++OTR.bulletCounter,
+      "active": false,
       "timeToLive": 120,
       "distance": 0,
       "velocity": 6.5,
